@@ -12,19 +12,22 @@ function EXEC {
   $@
 }
 
+TAG=richburdon/flask-demo
+NAME=flask-demo
+
 # Start VM.
 ECHO "Init..."
 EXEC boot2docker start && $(boot2docker shellinit)
 
 # Build image.
-ECHO "Building..."
-EXEC docker build -t richburdon/flask-demo .
+ECHO "Building: $TAG"
+EXEC docker build -t $TAG .
 EXEC docker images
 
 # Run container.
-ECHO "Running..."
-EXEC docker rm -f flask-demo
-EXEC docker run -d -P --name flask-demo -t richburdon/flask-demo
+ECHO "Running: $NAME"
+EXEC docker rm -f $NAME
+EXEC docker run -d -P --name $NAME -t $TASK
 EXEC docker ps -n=1
 
 # Test output.
