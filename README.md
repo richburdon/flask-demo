@@ -30,4 +30,4 @@ tools/python/bin/pip list
 
 3). Run the app
 
-tools/python/bin/python main.py
+tools/python/bin/python src/main/python/main.py
