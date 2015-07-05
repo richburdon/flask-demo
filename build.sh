@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Stop on error
-set -e
-
 function ECHO {
   echo "\n###\n### $@\n###"
 }
@@ -27,7 +24,7 @@ EXEC docker images
 # Run container.
 ECHO "Running: $NAME"
 EXEC docker rm -f $NAME
-EXEC docker run -d -P --name $NAME -t $TASK
+EXEC docker run -d -P --name $NAME -t $TAG
 EXEC docker ps -n=1
 
 # Test output.
