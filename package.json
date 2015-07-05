@@ -1,0 +1,12 @@
+{
+  "name": "flask-demo",
+  "description": "experimental flask demo",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:richburdon/flask-demo.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}
