@@ -18,8 +18,6 @@ RUN pip install -r requirements.txt
 # Expose (default Flask port).
 EXPOSE 5000 
 
-# Base dir for server.
-WORKDIR /home/demo/app
-
 # Run the server.
+WORKDIR /home/demo/app
 CMD ["python", "main.py"]

@@ -25,6 +25,7 @@ EXEC docker images
 ECHO "Running: $NAME"
 EXEC docker rm -f $NAME
 EXEC docker run -d -P --name $NAME -t $TAG
+# EXEC docker run -d -p 5000:5000 --name $NAME -t $TAG
 EXEC docker ps -n=1
 
 # Test output.

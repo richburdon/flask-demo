@@ -1,0 +1,5 @@
+flask-demo:
+  build: .
+  image: richburdon/flask-demo
+  ports:
+    - "5000:5000"
