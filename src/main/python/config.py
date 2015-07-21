@@ -20,6 +20,7 @@ class Config(object):
 class DevConfig(Config):
 
     def __init__(self):
+        # TODO(burdon): Allow user to spec any IP (not docker) in case running neo locally.
         # Assume neo is running in a local VM.
         host = os.environ.get('DOCKER_HOST')
         if host:
