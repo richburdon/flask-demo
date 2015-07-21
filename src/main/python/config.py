@@ -12,7 +12,7 @@ import subprocess
 @singleton
 class Config(object):
     def __init__(self, neo):
-        self.title = 'Amazing Demo'
+        self.title = 'The Amazing Demo'
         self.neo = neo
 
 
