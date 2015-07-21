@@ -1,0 +1,30 @@
+# Debug configuration
+# https://pythonhosted.org/Flask-Environments
+# Set FLASK_ENV to the environment (defult: DEVELOPMENT)
+
+COMMON: &common
+  DEBUG: False
+  PROD: False
+
+  PORT: 5000
+
+  LOG_FILE: app.log
+  LOG_LEVEL: DEBUG
+
+#
+# Dev: meaning local workstation (not on Docker)
+#
+
+DEVELOPMENT: &development
+  <<: *common
+
+  DEBUG: True
+
+#
+# Prod
+#
+
+PRODUCTION: &production
+  <<: *common
+
+  PROD: True

@@ -1,9 +1,15 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<title>Flask Demo</title>
+ <title>{{ config.title }}</title>
 {% endblock %}
 
 {% block body %}
-<h1>Demo</h1>
+ <h1>{{ config.title }}</h1>
+  <table>
+  <tr>
+    <td>NEO</td>
+    <td>{{ config.neo }}</td>
+  </tr>
+  </table>
 {% endblock %}
