@@ -16,7 +16,7 @@ requirejs(['jquery', 'd3'], function() {
   var graph = empty;
 
   var force = d3.layout.force()
-    .linkDistance(120)
+    .linkDistance(50)
     .charge(-400)
     .on('tick', tick);
 
