@@ -7,6 +7,7 @@
     "url": "git://github.com:richburdon/flask-demo.git"
   },
   "devDependencies": {
+    "bower": "^1.4.1",
     "grunt": "^0.4.5"
   }
 }
