@@ -10,16 +10,14 @@ ADD requirements.txt  /home/demo/build/
 ADD src/main/python   /home/demo/app/python
 ADD src/main/webapp   /home/demo/app/webapp
 
-# Base dir for build.
-WORKDIR /home/demo/build
-
 # Install Python modules.
+WORKDIR /home/demo/build
 RUN pip install -r requirements.txt
 
 # Expose (default Flask port).
 EXPOSE 5000 
 
-# Env
+# Flask Env
 ENV FLASK_ENV=PRODUCTION
 
 # Run the server.
