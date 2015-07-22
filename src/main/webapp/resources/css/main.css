@@ -2,6 +2,10 @@
  *
  */
 
+* {
+  font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial;
+}
+
 body {
   margin: 0;
 }
@@ -19,6 +23,10 @@ h1, h2, h3 {
   stroke-width: 1.5px;
 }
 
+.x-d3 .node.g-1 { fill: #1f77b4; }
+.x-d3 .node.g-2 { fill: #ff7f0e; }
+.x-d3 .node.g-3 { fill: #2ca02c; }
+
 .x-d3 .link {
   stroke: #999;
   stroke-opacity: .6;
@@ -30,9 +38,10 @@ h1, h2, h3 {
 
 .x-debug:after {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  content: '[INFO]';
+  right: 2px;
+  bottom: 2px;
+  content: 'DEV';
+  font-size: x-small;
 }
 
 .x-info {
@@ -41,6 +50,30 @@ h1, h2, h3 {
   top: 20px;
   width: 400px;
   border: 1px solid darkblue;
+  background-color: white;
+  padding: 10px;
+  z-index: 1;
+}
+
+.x-controls {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  border: 1px solid darkblue;
+  background-color: white;
+  padding: 10px;
+  z-index: 1;
+}
+
+.x-status {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  height: 50px;
+  overflow-y: scroll;
+  border: 1px solid darkblue;
+  font-size: small;
   background-color: white;
   padding: 10px;
   z-index: 1;

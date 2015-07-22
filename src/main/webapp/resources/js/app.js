@@ -1,33 +1,62 @@
 // Copyright 2015 Alien Laboratories, Inc.
 
+// NOTE: JS error: bubble_compiled.js is part of the Google Translate Chrome Extension.
+
 requirejs(['jquery', 'd3'], function() {
 
   // http://bl.ocks.org/mbostock/4062045
 
-  var div = $('.x-d3');
+  // TODO: ???
+  var color = d3.scale.category10();
 
-  var width = div.width();
-  var height = div.height();
+  var empty = {
+    nodes: [],
+    links: []
+  };
+  var graph = empty;
+
+  var force = d3.layout.force()
+    .linkDistance(120)
+    .charge(-400)
+    .on('tick', tick);
 
   var svg = d3.select('.x-d3').append('svg');
 
-  var color = d3.scale.category20();
+  var node = svg.selectAll('.node');
+  var link = svg.selectAll('.link');
 
-  var force = d3.layout.force()
-      .charge(-120)
-      .linkDistance(30)
-      .size([width, height]);
+  d3.select(window).on('resize', function() { trigger(resize, 200); });
+  resize();
 
-  var data = null;
-
-  d3.json('/res/data/test.json', function(error, graph) {
+  // Load data.
+  // TODO(burdon): Cache control.
+  d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, graph) {
     if (error) throw error;
-    data = graph;
-    render();
+    update(graph);
   });
 
-  // TODO(burdon): After delay (i.e., after stopped resizing).
-  d3.select(window).on('resize', function() { trigger(render, 200); });
+  // Controls
+  $('button.x-reset').click(function() {
+    update(empty);
+  });
+
+  $('button.x-create').click(function() {
+    var source = graph.nodes[Math.floor(Math.random() * graph.nodes.length)];
+    var target = {
+      'id': 'node' + new Date().getTime(),
+      'group': Math.floor(Math.random() * 3) + 1
+    };
+
+    graph.nodes.push(target);
+    if (source) {
+      graph.links.push({
+        source: source,
+        target: target
+      });
+    }
+
+    start();
+  });
 
   var timeout;
   function trigger(f, delay) {
@@ -40,52 +69,71 @@ requirejs(['jquery', 'd3'], function() {
     }, delay);
   }
 
-  function render() {
-    console.log('Render');
+  function resize() {
+    var container = $('.x-d3');
 
-    var graph = data;
-
-    width = div.width();
-    height = div.height();
-
-    force = d3.layout.force().size([width, height]);
+    var width = container.width();
+    var height = container.height();
+    console.log('resize: [%d, %d]', width, height);
 
     svg
       .attr('width', width)
       .attr('height', height);
 
+    force.size([width, height]);
+
+    start();
+  }
+
+  function update(data) {
+    console.log('update: %o', data);
+
+    graph = data;
+
+    $('.x-status').text(JSON.stringify(graph));
+
     force
-        .nodes(graph.nodes)
-        .links(graph.links)
-        .start();
+      .nodes(graph.nodes)
+      .links(graph.links)
+      .start(); // NOTE: start() converts link source/target indexes to objects.
 
-    var link = svg.selectAll('.link')
-        .data(graph.links)
-      .enter().append('line')
-        .attr('class', 'link')
-        .style('stroke-width', function(d) { return Math.sqrt(d.value); });
+    start();
+  }
 
-    var node = svg.selectAll('.node')
-        .data(graph.nodes)
-      .enter().append('circle')
-        .attr('class', 'node')
-        .attr('r', 5)
-        .style('fill', function(d) { return color(d.group); })
-        .call(force.drag);
+  function start() {
 
-    node.append('title')
-        .text(function(d) { return d.name; });
+    // https://github.com/mbostock/d3/wiki/Force-Layout#links
+    link = link.data(graph.links, function(d) { return d.source.id + '-' + d.target.id; });
+    link
+      .enter()
+      .insert('line', '.node')
+        .attr('class', 'link');
+    link
+      .exit()
+      .remove();
 
-    force.on('tick', function() {
-      link.attr('x1', function(d) { return d.source.x; })
-          .attr('y1', function(d) { return d.source.y; })
-          .attr('x2', function(d) { return d.target.x; })
-          .attr('y2', function(d) { return d.target.y; });
+    node = node.data(graph.nodes, function(d) { return d.id; });
+    node
+      .enter()
+      .append('circle')
+        .attr('class', function(d) { return 'node g-' + d.group; }).attr('r', 16);
+    node
+      .exit()
+      .remove();
 
-      node.attr('cx', function(d) { return d.x; })
-          .attr('cy', function(d) { return d.y; });
-    });
+    force.start();
+  }
 
-  } // render
+  function tick() {
+    link
+      .attr('x1', function(d) { return d.source.x; })
+      .attr('y1', function(d) { return d.source.y; })
+      .attr('x2', function(d) { return d.target.x; })
+      .attr('y2', function(d) { return d.target.y; });
+
+    node
+      .attr('cx', function(d) { return d.x; })
+      .attr('cy', function(d) { return d.y; });
+  }
 
 });
