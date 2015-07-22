@@ -5,9 +5,10 @@
 # Base python image (includes tools).
 FROM python:2.7
 
-# Add source.
-ADD requirements.txt /home/demo/build/
-ADD src/main/python /home/demo/app/
+# Add sources.
+ADD requirements.txt  /home/demo/build/
+ADD src/main/python   /home/demo/app/python
+ADD src/main/webapp   /home/demo/app/webapp
 
 # Base dir for build.
 WORKDIR /home/demo/build
@@ -22,5 +23,5 @@ EXPOSE 5000
 ENV FLASK_ENV=PRODUCTION
 
 # Run the server.
-WORKDIR /home/demo/app
+WORKDIR /home/demo/app/python
 CMD ["python", "main.py"]

@@ -1,0 +1,56 @@
+/*
+ *
+ */
+
+body {
+  margin: 0;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+/*
+ * D3
+ */
+
+.x-d3 .node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.x-d3 .link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+
+/*
+ *
+ */
+
+.x-debug:after {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  content: '[INFO]';
+}
+
+.x-info {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 400px;
+  border: 1px solid darkblue;
+  background-color: white;
+  padding: 10px;
+  z-index: 1;
+}
+
+.x-d3 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #EEE;
+}

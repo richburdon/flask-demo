@@ -1,11 +1,25 @@
 <!doctype html>
 <html>
+
   <head>
-  {% block head %}
-  {% endblock %}
+
+    <meta charset="utf-8">
+    <link rel="icon" href="/favicon.ico">
+
+    <link href="/res/css/main.css" rel="stylesheet">
+
+    {% block head %}
+    {% endblock %}
+
   </head>
+
   <body>
-  {% block body %}
-  {% endblock %}
+
+    {% block body %}
+    {% endblock %}
+
+    <div class="x-debug"></div>
+
   </body>
+
 </html>

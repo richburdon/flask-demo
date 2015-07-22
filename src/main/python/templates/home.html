@@ -1,15 +1,27 @@
 {% extends "layout.html" %}
 
 {% block head %}
- <title>{{ config.title }}</title>
+
+  <title>{{ config.title }}</title>
+
+  <script type="text/javascript" src="/res/lib/requirejs/require.js"></script>
+  <script type="text/javascript" src="/res/js/config.js"></script>
+  <script type="text/javascript" src="/res/js/app.js"></script>
+
 {% endblock %}
 
 {% block body %}
- <h1>{{ config.title }}</h1>
-  <table>
-  <tr>
-    <td>NEO</td>
-    <td>{{ config.neo }}</td>
-  </tr>
-  </table>
+
+  <div class="x-info">
+    <h1>{{ config.title }}</h1>
+    <table>
+    <tr>
+      <td>NEO</td>
+      <td>{{ config.neo }}</td>
+    </tr>
+    </table>
+  </div>
+
+  <div class="x-d3"></div>
+
 {% endblock %}

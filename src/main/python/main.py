@@ -10,7 +10,11 @@ from config import ConfigModule
 from view import ViewModule
 
 # Main app
-app = flask.Flask(__name__, template_folder='templates')
+app = flask.Flask(
+    __name__,
+    static_folder='../webapp/resources',
+    static_url_path='/res',
+    template_folder='templates')
 
 # Runtime environment (set-via FLASK_ENV)
 # https://pythonhosted.org/Flask-Environments
