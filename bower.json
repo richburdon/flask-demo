@@ -17,5 +17,12 @@
     "src/main/webapp/resources/lib",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "angular-route": "~1.4.3",
+    "angular": "~1.4.3",
+    "jquery": "~2.1.4",
+    "d3": "~3.5.6",
+    "requirejs": "~2.1.19"
+  }
 }

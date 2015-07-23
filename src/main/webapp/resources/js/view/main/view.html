@@ -1,0 +1,17 @@
+<div xmlns:ng="http://angularjs.org">
+
+  <!-- TODO(burdon): Create controllers for all main sections. -->
+  <div class="x-info">
+    <h1>Hello {{ text }}</h1>
+    <input type="text" ng:model="text"/>
+    <span app-version></span>
+  </div>
+
+  <div class="x-d3">
+    <div ng:controller="GraphController">{{ message }}</div>
+  </div>
+
+  <div class="x-status">
+  </div>
+
+</div>

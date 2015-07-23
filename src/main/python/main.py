@@ -16,6 +16,13 @@ app = flask.Flask(
     static_url_path='/res',
     template_folder='templates')
 
+
+# Config caching.
+@app.after_request
+def add_header(response):
+    response.cache_control.max_age = 300
+    return response
+
 # Runtime environment (e.g., export FLASK_ENV=PRODUCTION)
 # https://pythonhosted.org/Flask-Environments
 env = Environments(app)

@@ -2,16 +2,9 @@
 
 // NOTE: JS error: bubble_compiled.js is part of the Google Translate Chrome Extension.
 
-requirejs(['jquery', 'd3'], function() {
+define(['jquery', 'd3'], function() {
 
   // http://bl.ocks.org/mbostock/4062045
-
-  var EMPTY = {
-    nodes: [],
-    links: []
-  };
-
-  var graph = EMPTY;
 
   // https://github.com/mbostock/d3/wiki/Force-Layout
   var force = d3.layout.force()
@@ -24,83 +17,9 @@ requirejs(['jquery', 'd3'], function() {
   var node = svg.selectAll('.node');
   var link = svg.selectAll('.link');
 
-  d3.select(window).on('resize', function() { trigger(resize, 200); });
+  var trigger = $.trigger(resize, 200);
+  d3.select(window).on('resize', function() { trigger.fire(); }); // TODO(burdon): pass function only.
   resize();
-
-  // Load data.
-  // TODO(burdon): Cache control.
-  d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, graph) {
-    if (error) throw error;
-    update(graph);
-  });
-
-  //
-  // Controls
-  //
-
-  $('button.x-reset').click(function() {
-    update(EMPTY);
-  });
-
-  $('button.x-load').click(function() {
-    load();
-  });
-
-  $('button.x-refresh').click(function() {
-    start();
-  });
-
-  $('button.x-create').click(function() {
-    post();
-  });
-
-  // TODO(burdon): Factor out.
-  var timeout;
-  function trigger(f, delay) {
-    if (timeout) {
-      window.clearTimeout(timeout);
-    }
-    timeout = window.setTimeout(function() {
-      timeout = null;
-      f();
-    }, delay);
-  }
-
-  function post() {
-    $.ajax({
-      type: 'POST',
-      url: '/data',
-      dataType: 'json',
-      data: {},
-      success: function() {
-        console.log('OK');
-        load();
-      }
-    });
-  }
-
-  function load() {
-    d3.json('/data', function(error, graph) {
-      if (error) throw error;
-
-      // TODO(burdon): Create D3 wrapper.
-      var node_map = {};
-      var i;
-      for (i = 0; i < graph.nodes.length; i++) {
-        var node = graph.nodes[i];
-        node_map[node.id] = node;
-      }
-
-      // Map IDs to objects (D3 can handle objects or indexed by not IDs).
-      for (i = 0; i < graph.links.length; i++) {
-        var link = graph.links[i];
-        link.source = node_map[link.source];
-        link.target = node_map[link.target];
-      }
-
-      update(graph);
-    });
-  }
 
   function resize() {
     var container = $('.x-d3');
@@ -133,7 +52,6 @@ requirejs(['jquery', 'd3'], function() {
     for (i = 0; i < nodes.length; i++) {
       node = nodes[i];
       node_map[node.id] = node;
-      console.log('FOUND: ' + node.id);
     }
     for (i = 0; i < graph.nodes.length; i++) {
       node = graph.nodes[i];
@@ -143,8 +61,6 @@ requirejs(['jquery', 'd3'], function() {
         node.y = current.y;
         node.px = current.px;
         node.py = current.py;
-      } else {
-        console.log('NOT FOUND: ' + node.id);
       }
     }
 
@@ -166,16 +82,20 @@ requirejs(['jquery', 'd3'], function() {
         .attr('class', 'link');
     link
       .exit()
-      .remove();
+        .remove();
 
+    // TODO(burdon): Set initial position at center (or parent).
     node = node.data(graph.nodes, function(d) { return d.id; });
     node
       .enter()
       .append('circle')
-        .attr('class', function(d) { return 'node g-' + d.group; }).attr('r', 16);
+        .attr('class', function(d) { return 'node g-' + d.group; })
+        //.attr('cx', function(d) { return 10; }) // TODO(burdon): ???
+        //.attr('cy', function(d) { return 10; })
+        .attr('r', 16);
     node
       .exit()
-      .remove();
+        .remove();
 
     force.start();
   }

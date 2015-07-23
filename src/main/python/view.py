@@ -20,6 +20,7 @@ class ViewModule(Module):
 
     def configure(self, binder):
         self.add_view(HomeView)
+        self.add_view(DemoView)
         self.add_view(DataView)
 
 
@@ -31,6 +32,15 @@ class HomeView(flask.views.MethodView):
 
     def get(self):
         return flask.render_template('home.html', config=self.config, db=self.db)
+
+@inject(config=Config)
+class DemoView(flask.views.MethodView):
+
+    ROUTE = '/demo'
+    NAME = 'Demo'
+
+    def get(self):
+        return flask.render_template('demo.html')
 
 
 @inject(db=Database)
