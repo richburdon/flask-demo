@@ -13,6 +13,7 @@ requirejs(['jquery', 'd3'], function() {
 
   var graph = EMPTY;
 
+  // https://github.com/mbostock/d3/wiki/Force-Layout
   var force = d3.layout.force()
     .linkDistance(50)
     .charge(-400)
@@ -42,7 +43,43 @@ requirejs(['jquery', 'd3'], function() {
   });
 
   $('button.x-load').click(function() {
-    update(EMPTY);
+    load();
+  });
+
+  $('button.x-refresh').click(function() {
+    start();
+  });
+
+  $('button.x-create').click(function() {
+    post();
+  });
+
+  // TODO(burdon): Factor out.
+  var timeout;
+  function trigger(f, delay) {
+    if (timeout) {
+      window.clearTimeout(timeout);
+    }
+    timeout = window.setTimeout(function() {
+      timeout = null;
+      f();
+    }, delay);
+  }
+
+  function post() {
+    $.ajax({
+      type: 'POST',
+      url: '/data',
+      dataType: 'json',
+      data: {},
+      success: function() {
+        console.log('OK');
+        load();
+      }
+    });
+  }
+
+  function load() {
     d3.json('/data', function(error, graph) {
       if (error) throw error;
 
@@ -63,35 +100,6 @@ requirejs(['jquery', 'd3'], function() {
 
       update(graph);
     });
-  });
-
-  $('button.x-create').click(function() {
-    var source = graph.nodes[Math.floor(Math.random() * graph.nodes.length)];
-    var target = {
-      'id': 'node' + new Date().getTime(),
-      'group': Math.floor(Math.random() * 3) + 1
-    };
-
-    graph.nodes.push(target);
-    if (source) {
-      graph.links.push({
-        source: source,
-        target: target
-      });
-    }
-
-    start();
-  });
-
-  var timeout;
-  function trigger(f, delay) {
-    if (timeout) {
-      window.clearTimeout(timeout);
-    }
-    timeout = window.setTimeout(function() {
-      timeout = null;
-      f();
-    }, delay);
   }
 
   function resize() {
@@ -116,6 +124,29 @@ requirejs(['jquery', 'd3'], function() {
     graph = data;
 
     $('.x-status').text(JSON.stringify(graph));
+
+    // Preserve current x, y coordinates.
+    var node_map = {};
+    var nodes = force.nodes();
+    var node;
+    var i;
+    for (i = 0; i < nodes.length; i++) {
+      node = nodes[i];
+      node_map[node.id] = node;
+      console.log('FOUND: ' + node.id);
+    }
+    for (i = 0; i < graph.nodes.length; i++) {
+      node = graph.nodes[i];
+      var current = node_map[node.id];
+      if (current) {
+        node.x = current.x;
+        node.y = current.y;
+        node.px = current.px;
+        node.py = current.py;
+      } else {
+        console.log('NOT FOUND: ' + node.id);
+      }
+    }
 
     force
       .nodes(graph.nodes)

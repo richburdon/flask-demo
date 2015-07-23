@@ -2,9 +2,6 @@
 # Copyright 2015 Alien Laboratories, Inc.
 #
 
-# http://neo4j.com/developer/python/
-# http://py2neo.org/2.0/
-
 from injector import inject, singleton
 from config import Config
 from py2neo import Graph, Node, Relationship
@@ -14,6 +11,11 @@ import random
 @singleton
 @inject(config=Config)
 class Database(object):
+    """
+    http://neo4j.com/developer/python
+    http://neo4j.com/docs/stable
+    http://py2neo.org/2.0
+    """
 
     def __init__(self):
         self.graph = Graph('http://' + self.config.neo_url + '/db/data/')
@@ -29,6 +31,7 @@ class Database(object):
         relationships = self.graph.cypher.execute('MATCH ()-[r:linked]->() RETURN r')
         return relationships
 
+    # TODO(burdon): Optionally specify source node ID.
     def add(self):
         items = self.graph.cypher.execute('MATCH (item:Item) RETURN item')
         name = 'Item-{:d}'.format(len(items) + 1)

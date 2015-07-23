@@ -41,7 +41,6 @@ class DataView(flask.views.MethodView):
 
     def get(self):
         try:
-            self.db.add()
             result = {
                 'nodes': [],
                 'links': []
@@ -70,6 +69,16 @@ class DataView(flask.views.MethodView):
                 })
 
             return flask.json.jsonify(result)
+
+        except:
+            LOG.exception('Data API')
+            return flask.abort(500)
+
+    def post(self):
+        try:
+            # TODO(burdon): Part mutation.
+            self.db.add()
+            return flask.json.jsonify({})
 
         except:
             LOG.exception('Data API')
