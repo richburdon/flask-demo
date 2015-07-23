@@ -1,5 +1,5 @@
 #
-# Copyright 2014 Alien Laboratories, Inc.
+# Copyright 2015 Alien Laboratories, Inc.
 #
 
 import flask
@@ -16,10 +16,14 @@ app = flask.Flask(
     static_url_path='/res',
     template_folder='templates')
 
-# Runtime environment (set-via FLASK_ENV)
+# Runtime environment (e.g., export FLASK_ENV=PRODUCTION)
 # https://pythonhosted.org/Flask-Environments
 env = Environments(app)
 env.from_yaml(os.path.join(os.getcwd(), 'config/config.yml'))
+
+import logging
+logging.basicConfig(filename=app.config['LOG_FILE'], level=logging.getLevelName(app.config['LOG_LEVEL']))
+logging.getLogger().addHandler(logging.StreamHandler())
 
 # Flask injection modules.
 # https://github.com/alecthomas/injector
@@ -30,6 +34,7 @@ FlaskInjector(app=app, modules=[
 
 # Start
 if __name__ == '__main__':
+    logging.info('Starting...')
     app.run(
         host='0.0.0.0',
         port=app.config['PORT'])

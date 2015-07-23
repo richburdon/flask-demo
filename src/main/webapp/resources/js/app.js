@@ -6,14 +6,12 @@ requirejs(['jquery', 'd3'], function() {
 
   // http://bl.ocks.org/mbostock/4062045
 
-  // TODO: ???
-  var color = d3.scale.category10();
-
-  var empty = {
+  var EMPTY = {
     nodes: [],
     links: []
   };
-  var graph = empty;
+
+  var graph = EMPTY;
 
   var force = d3.layout.force()
     .linkDistance(50)
@@ -35,9 +33,20 @@ requirejs(['jquery', 'd3'], function() {
     update(graph);
   });
 
+  //
   // Controls
+  //
+
   $('button.x-reset').click(function() {
-    update(empty);
+    update(EMPTY);
+  });
+
+  $('button.x-load').click(function() {
+    update(EMPTY);
+    d3.json('/data', function(error, graph) {
+      if (error) throw error;
+      update(graph);
+    });
   });
 
   $('button.x-create').click(function() {

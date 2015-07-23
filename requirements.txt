@@ -1,3 +1,6 @@
 Flask
 Flask-Injector
 flask-environments
+
+pyyaml
+py2neo
