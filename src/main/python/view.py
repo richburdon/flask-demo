@@ -49,11 +49,24 @@ class DataView(flask.views.MethodView):
 
             # TODO(burdon): Select relationships also.
             records = self.db.select()
-            for record in records:
-                LOG.info(record[0])
-                result['nodes'].append({
-                    'id': record[0].ref,
-                    'name': record[0]['name']
+            graph = records.to_subgraph()
+            LOG.info(graph.nodes)
+            LOG.info(graph.relationships)
+
+            node_map = {}
+            for node in graph.nodes:
+                # TODO(burdon): Why are nodes showing up multiple times?
+                if node.ref not in node_map:
+                    node_map[node.ref] = node
+                    result['nodes'].append({
+                        'id': node.ref,
+                        'name': node['name']
+                    })
+
+            for relationship in graph.relationships:
+                result['links'].append({
+                    'source': relationship.start_node.ref,
+                    'target': relationship.end_node.ref
                 })
 
             return flask.json.jsonify(result)

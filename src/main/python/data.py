@@ -22,9 +22,12 @@ class Database(object):
         items = self.graph.cypher.execute('MATCH (item:Item) RETURN item')
         return 'Graph({:d})'.format(len(items))
 
+    def clear(self):
+        self.graph.cypher.execute('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r')
+
     def select(self):
-        items = self.graph.cypher.execute('MATCH (item:Item) RETURN item')
-        return items
+        relationships = self.graph.cypher.execute('MATCH ()-[r:linked]->() RETURN r')
+        return relationships
 
     def add(self):
         items = self.graph.cypher.execute('MATCH (item:Item) RETURN item')

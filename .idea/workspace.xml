@@ -2,18 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c12aa93a-ab52-42d0-94e7-3d2e70bf1147" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/python/data.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/app.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/config.py" afterPath="$PROJECT_DIR$/src/main/python/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/config/config.yml" afterPath="$PROJECT_DIR$/src/main/python/config/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/flask-demo.iml" afterPath="$PROJECT_DIR$/.idea/flask-demo.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/data.py" afterPath="$PROJECT_DIR$/src/main/python/data.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/templates/home.html" afterPath="$PROJECT_DIR$/src/main/python/templates/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/main.css" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/main.py" afterPath="$PROJECT_DIR$/src/main/python/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/view.py" afterPath="$PROJECT_DIR$/src/main/python/view.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="flask-demo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,7 +19,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/flask-demo$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1437611562441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/main/python" />
+    <SUITE FILE_PATH="coverage/flask-demo$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1437613707155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/main/python" />
     <SUITE FILE_PATH="coverage/flask-demo$Demo.coverage" NAME="Demo Coverage Results" MODIFIED="1437590880371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/main/python" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -43,7 +35,17 @@
         <entry file="file://$PROJECT_DIR$/src/main/python/data.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/data/test.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.0">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -52,8 +54,28 @@
       <file leaf-file-name="view.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/python/view.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58388376">
-              <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.88110965">
+              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/python/templates/home.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.4583335">
+              <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -223,6 +245,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flask-demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -760,9 +812,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/python/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.4583335">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/data/test.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32742155">
+        <state vertical-scroll-proportion="-10.0">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
@@ -770,16 +830,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35667107">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/python/templates/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7162346">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -787,15 +839,15 @@
     <entry file="file://$PROJECT_DIR$/src/main/python/data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58388376">
-          <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.88110965">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
           <folding />
         </state>
       </provider>
