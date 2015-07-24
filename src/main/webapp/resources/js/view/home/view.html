@@ -1,7 +1,10 @@
 <div xmlns:ng="http://angularjs.org">
 
-  <!-- TODO(burdon): Create controllers for all main sections. -->
   <div class="x-info">
+    <div ng:controller="AppInfoTableController">
+      <div ui-table></div>
+    </div>
+
     <h1>Hello {{ text }}</h1>
     <input type="text" ng:model="text"/>
     <span app-version></span>
@@ -11,7 +14,14 @@
     <div ng:controller="GraphController">{{ message }}</div>
   </div>
 
+  <div class="x-controls">
+    <div ng:controller="ControlsController">
+      <button ng-click="test()">Test</button>
+    </div>
+  </div>
+
   <div class="x-status">
+    <div ng:controller="StatusController">{{ message }}</div>
   </div>
 
 </div>

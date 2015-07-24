@@ -5,7 +5,7 @@
 //
 // Configuration
 //
-// Combine jquery with angular.
+// HOWTO: Combine jquery with angular.
 // https://github.com/tnajdek/angular-requirejs-seed/tree/master/app
 // http://stackoverflow.com/questions/16108207/does-angularjs-support-amd-like-requirejs
 //
@@ -13,21 +13,30 @@ require.config({
 
   baseUrl: '/res/js',
 
+  // NOTE: Cache control is handled by Flask.
   // http://stackoverflow.com/questions/23112316/using-flask-how-do-i-modify-the-cache-control-header-for-all-output
-  //urlArgs: "nocache=" + new Date().getTime(),
+  // urlArgs: "nocache=" + new Date().getTime(),
 
   paths: {
-    'angular':        '../lib/angular/angular',
-    'angular-route':  '../lib/angular-route/angular-route',
-    'd3':             '../lib/d3/d3',
-    'jquery':         '../lib/jquery/dist/jquery'
+
+    //
+    'angular':            '../lib/angular/angular',
+
+    // https://github.com/angular-ui/ui-router
+    'angular-ui-router':  '../lib/angular-ui-router/release/angular-ui-router',
+
+    //
+    'd3':                 '../lib/d3/d3',
+
+    //
+    'jquery':             '../lib/jquery/dist/jquery'
   },
 
 	shim: {
     'angular': {
       'exports': 'angular'
     },
-		'angular-route': ['angular']
+		'angular-ui-router':  ['angular']
   },
 
   priority: [
