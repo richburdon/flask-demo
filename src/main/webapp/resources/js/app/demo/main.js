@@ -2,11 +2,15 @@
 
 'use strict';
 
-define(['angular', 'angular-ui-router', 'view/home/view'], function(angular) {
+define(
+  [
+    'angular',
+    'angular-ui-router',
+    'view/home/view',
+    'view/test/view'
+  ], function(angular) {
 
-  // TODO(burdon): Get key value properties from model?
-  // TODO(burdon): How to trigger update when values change.
-
+  // TODO(burdon): How to trigger update when values change ($watch: https://docs.angularjs.org/api/ng/type/$rootScope.Scope)
   // TODO(burdon): Get from server in global JS variable.
   var APP_INFO = [
     {
@@ -20,7 +24,12 @@ define(['angular', 'angular-ui-router', 'view/home/view'], function(angular) {
   ];
 
   // Define the main app.
-	return angular.module('demo', ['ui.router', 'demo.view.home'])
+	return angular.module('demo',
+    [
+      'ui.router',
+      'demo.view.home',
+      'demo.view.test'
+    ])
 
     // Provide App Data.
     .factory('app_info', function() {
@@ -43,6 +52,11 @@ define(['angular', 'angular-ui-router', 'view/home/view'], function(angular) {
             url: '/home',
             templateUrl: '/res/js/view/home/view.html',
             controller: 'MainViewController'
+          })
+          .state('test', {
+            url: '/test',
+            templateUrl: '/res/js/view/test/view.html',
+            controller: 'TestViewController'
           });
 	    }
     ])
