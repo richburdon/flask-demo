@@ -1,4 +1,5 @@
 # flask-demo
+# Uses Flask and Angular.
 
 #1). Set-up:
 
