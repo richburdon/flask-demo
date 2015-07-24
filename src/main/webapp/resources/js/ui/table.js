@@ -10,7 +10,6 @@ define(['angular'], function(angular) {
       $scope.data = data;
     }])
 
-    // https://docs.angularjs.org/guide/directive
     .directive('uiTable', function() {
       return {
         templateUrl: '/res/js/ui/table.html'

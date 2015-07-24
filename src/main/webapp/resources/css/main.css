@@ -19,16 +19,16 @@ h1, h2, h3 {
  * D3
  */
 
-.x-d3 .node {
+.x-graph .node {
   stroke: #fff;
   stroke-width: 1.5px;
 }
 
-.x-d3 .node.g-1 { fill: #1f77b4; }
-.x-d3 .node.g-2 { fill: #ff7f0e; }
-.x-d3 .node.g-3 { fill: #2ca02c; }
+.x-graph .node.g-1 { fill: #1f77b4; }
+.x-graph .node.g-2 { fill: #ff7f0e; }
+.x-graph .node.g-3 { fill: #2ca02c; }
 
-.x-d3 .link {
+.x-graph .link {
   stroke: #999;
   stroke-opacity: .6;
 }
@@ -80,7 +80,7 @@ h1, h2, h3 {
   z-index: 1;
 }
 
-.x-d3 {
+.x-graph {
   position: absolute;
   left: 0;
   right: 0;

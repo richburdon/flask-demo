@@ -2,27 +2,24 @@
 
 define(['jquery'], function() {
 
-  var Trigger = function(callback, delay) {
-    this.timeout = null;
-    this.callback = callback;
-    this.delay = delay || 0;
-  };
+  /**
+   * Returns a functor that calls the callback after a delay.
+   * Subsequent calls cancel any pending callbacks.
+   *
+   * @param callback (e.g., self.foo.bind(self) to call member function).
+   * @param delay Defaults to 1000 ms.
+   * @returns {Function}
+   */
+  $.defer = function(callback, delay) {
+    delay = delay || 1000;
 
-  Trigger.prototype.fire = function() {
-    var self = this;
-
-    if (self.timeout) {
-      window.clearTimeout(self.timeout);
+    var timeout = null;
+    return function() {
+      if (timeout) {
+        window.clearTimeout(timeout);
+      }
+      timeout = window.setTimeout(callback, delay);
     }
-
-    self.timeout = window.setTimeout(function() {
-      self.timeout = null;
-      self.callback();
-    }, self.delay);
-  };
-
-  $.trigger = function(callback, delay) {
-    return new Trigger(callback, delay);
-  };
+  }
 
 });

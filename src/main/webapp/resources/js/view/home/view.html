@@ -1,23 +1,23 @@
-<div xmlns:ng="http://angularjs.org">
+<div>
 
   <div class="x-info">
-    <div ng:controller="AppInfoTableController">
+    <div ng-controller="AppInfoTableController">
       <div ui-table></div>
     </div>
   </div>
 
-  <div class="x-d3">
-    <div ng:controller="GraphController">{{ message }}</div>
+  <div class="x-graph">
+    <div ui-graph="center"></div>
   </div>
 
   <div class="x-controls">
-    <div ng:controller="ControlsController">
+    <div ng-controller="ControlsController">
       <button ng-click="test()">Test</button>
     </div>
   </div>
 
   <div class="x-status">
-    <div ng:controller="StatusController">{{ message }}</div>
+    <div ng-controller="StatusController">{{ message }}</div>
   </div>
 
 </div>

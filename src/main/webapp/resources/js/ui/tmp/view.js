@@ -12,7 +12,7 @@ define(['jquery', 'd3'], function() {
     .charge(-400)
     .on('tick', tick);
 
-  var svg = d3.select('.x-d3').append('svg');
+  var svg = d3.select('.x-graph').append('svg');
 
   var node = svg.selectAll('.node');
   var link = svg.selectAll('.link');
@@ -22,7 +22,7 @@ define(['jquery', 'd3'], function() {
   resize();
 
   function resize() {
-    var container = $('.x-d3');
+    var container = $('.x-graph');
 
     var width = container.width();
     var height = container.height();
