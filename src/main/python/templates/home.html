@@ -4,37 +4,10 @@
 
   <title>{{ config.title }}</title>
 
-  <script type="text/javascript" src="/res/lib/requirejs/require.js"></script>
-  <script type="text/javascript" src="/res/js/config.js"></script>
-  <script type="text/javascript" src="/res/js/app.js"></script>
+  <meta http-equiv="refresh" content="0;URL=/demo">
 
 {% endblock %}
 
 {% block body %}
-
-  <div class="x-info">
-    <h1>{{ config.title }}</h1>
-    <table>
-    <tr>
-      <td>NEO</td>
-      <td><a href="http://{{ config.neo_url }}" target="neo">{{ config.neo_url }}</a></td>
-    </tr>
-    <tr>
-      <td>Database</td>
-      <td>{{ db }}</td>
-    </tr>
-    </table>
-  </div>
-
-  <div class="x-d3"></div>
-
-  <div class="x-controls">
-    <button class="x-reset">Reset</button>
-    <button class="x-load">Load</button>
-    <button class="x-create">Create</button>
-    <button class="x-refresh">Refresh</button>
-  </div>
-
-  <div class="x-status"></div>
 
 {% endblock %}
