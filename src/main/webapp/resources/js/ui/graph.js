@@ -4,22 +4,97 @@
 
 define(['angular', 'd3', 'util/plugin'], function(angular) {
 
+  // TODO(burdon): Split Control(View?)/Model and Controller (pattern). In same directory?
+
   // https://docs.angularjs.org/guide/directive
   // http://weblogs.asp.net/dwahlin/creating-custom-angularjs-directives-part-6-using-controllers
   // https://github.com/allenhwkim/angularjs-google-maps/blob/master/directives/map.js
 
+  var GraphModel = function() {
+    this.graph = {
+      nodes: [],
+      links: []
+    };
+
+    // TODO(burdon): Util.
+    this.listeners = [];
+  };
+
+  GraphModel.prototype.addListener = function(listener) {
+    this.listeners.push(listener);
+  };
+
+  GraphModel.prototype.fireListeners = function(event) {
+    $.each(this.listeners, function(i, listener) {
+      listener(event);
+    })
+  };
+
+  GraphModel.prototype.clear = function() {
+    this.graph = {
+      nodes: [],
+      links: []
+    };
+    this.fireListeners();
+  };
+
+  GraphModel.prototype.load = function() {
+    var self = this;
+    // TODO(burdon): Use jquery.
+    d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, graph) {
+      if (error) throw error;
+      self.graph = graph;
+      self.fireListeners();
+    });
+  };
+
+  GraphModel.prototype.load_remote = function() {
+    var self = this;
+    d3.json('/data', function(error, graph) {
+      if (error) throw error;
+
+      // TODO(burdon): Create D3 wrapper.
+      var node_map = {};
+      var i;
+      for (i = 0; i < graph.nodes.length; i++) {
+        var node = graph.nodes[i];
+        node_map[node.id] = node;
+      }
+
+      // Map IDs to objects (D3 can handle objects or indexed by not IDs).
+      for (i = 0; i < graph.links.length; i++) {
+        var link = graph.links[i];
+        link.source = node_map[link.source];
+        link.target = node_map[link.target];
+      }
+
+      self.fireListeners();
+    });
+  };
+
+  GraphModel.prototype.post = function() {
+    var self = this;
+    $.ajax({
+      type: 'POST',
+      url: '/data',
+      dataType: 'json',
+      data: {},
+      success: function() {
+        self.load_remote();
+      }
+    });
+  };
+
   // TODO(burdon): Keep Graph Control pure from Angular? Managed by Angular controller. Factor out?
   // TODO(burdon): Init Graph with attrs?
   var GraphControl = function(root) {
+
+    // Get elements.
     this.root = $(root);
     this.svg = d3.select(this.root[0]).select('svg');
 
     // Model.
-    // TODO(burdon): Binding ($watch?)
-    this.model = {
-      nodes: [],
-      links: []
-    };
+    this.model = null;
 
     // https://github.com/mbostock/d3/wiki/Force-Layout
     this.force = d3.layout.force()
@@ -34,13 +109,18 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
     // Resize handler.
     d3.select(window).on('resize', $.defer(this.resize.bind(this), 100));
     this.resize();
+  };
 
-    // TODO(burdon): Remove.
-    var self = this;
-    d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, model) {
-      if (error) throw error;
-      self.update(model);
-    });
+  /**
+   * Sets the model.
+   * @param model
+   * @returns {GraphControl}
+   */
+  GraphControl.prototype.setModel = function(model) {
+    // TODO(burdon): Unlink existing.
+    this.model = model;
+    this.model.addListener(this.update.bind(this));
+    return this;
   };
 
   /**
@@ -79,9 +159,11 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
    * Start the force.
    */
   GraphControl.prototype.start = function() {
+    var links = this.model && this.model.graph.links || [];
+    var nodes = this.model && this.model.graph.nodes || [];
 
     // https://github.com/mbostock/d3/wiki/Force-Layout#links
-    this.link = this.link.data(this.model.links, function(d) { return d.source.id + '-' + d.target.id; });
+    this.link = this.link.data(links, function(d) { return d.source.id + '-' + d.target.id; });
     this.link
       .enter()
       .insert('line', '.node')
@@ -91,7 +173,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
         .remove();
 
     // TODO(burdon): Set initial position at center (or parent).
-    this.node = this.node.data(this.model.nodes, function(d) { return d.id; });
+    this.node = this.node.data(nodes, function(d) { return d.id; });
     this.node
       .enter()
       .append('circle')
@@ -106,24 +188,22 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
 
   /**
    * Set model.
-   * @param model
    */
-  GraphControl.prototype.update = function(model) {
-    console.log('update: %o', model);
-
-    this.model = model;
+  GraphControl.prototype.update = function() {
+    var links = this.model && this.model.graph.links || [];
+    var nodes = this.model && this.model.graph.nodes || [];
 
     // Preserve current x, y coordinates.
     var node_map = {};
-    var nodes = this.force.nodes();
+    var current_nodes = this.force.nodes();
     var node;
     var i;
-    for (i = 0; i < nodes.length; i++) {
-      node = nodes[i];
+    for (i = 0; i < current_nodes.length; i++) {
+      node = current_nodes[i];
       node_map[node.id] = node;
     }
-    for (i = 0; i < model.nodes.length; i++) {
-      node = model.nodes[i];
+    for (i = 0; i < nodes.length; i++) {
+      node = nodes[i];
       var current = node_map[node.id];
       if (current) {
         node.x = current.x;
@@ -134,8 +214,8 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
     }
 
     this.force
-      .nodes(model.nodes)
-      .links(model.links)
+      .links(links)
+      .nodes(nodes)
       .start(); // NOTE: start() converts link source/target indexes to objects.
 
     this.start();
@@ -143,22 +223,21 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
 
 	return angular.module('ui.graph', [])
 
-    .controller('GraphController', ['$scope', '$element', function($scope, $element) {
-      $scope.graph = new GraphControl($element);
+    // TODO(burdon): Move to main. Defaults? What if unbound?
+    .factory('GraphModel', function() {
+      return new GraphModel();
+    })
+
+    .controller('GraphController', ['$scope', '$element', 'GraphModel', function($scope, $element, model) {
+      $scope.graph = new GraphControl($element).setModel(model);
+      // TODO(burdon): Connect to controls.
+      model.load();
     }])
 
     .directive('uiGraph', [function() {
       return {
         template: '<svg></svg>',
-
-        controller: 'GraphController',
-
-        link: function(scope, element, attrs, ctrl) {
-          console.log('scope', scope);
-          console.log('element', element);
-          console.log('attrs', attrs);
-          console.log('ctrl', ctrl);
-        }
+        controller: 'GraphController'
       }
     }]);
 
