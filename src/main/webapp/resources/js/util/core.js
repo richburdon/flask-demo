@@ -74,4 +74,49 @@ define(['jquery'], function() {
     return $.nx.set(window, $.nx.assert(ns), {}, true);
   };
 
+  /**
+   * Class inheritance.
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
+   * http://stackoverflow.com/questions/4152931/javascript-inheritance-call-super-constructor-or-use-prototype-chain
+   * https://github.com/google/closure-library/blob/master/closure/goog/base.js
+   * http://stackoverflow.com/questions/1249531/how-to-get-a-javascript-objects-class
+   *
+   * See Backbone.extend
+   *
+   * var Foo = function(name) {
+   *   var self = this;
+   * };
+   * Foo.prototype.foo = function() {};
+   *
+   * var Bar = $.nx.extend(Foo, function(name, count) {
+   *   var self = Bar.super(this, name);
+   * });
+   * Bar.prototype.foo = function() {
+   *   Bar._super.foo.call(self);
+   * };
+   *
+   * @param base Base class constructor.
+   * @param constructor Constructor function.
+   */
+  // TODO(burdon): Allow for multiple inheritance.
+  $.nx.extend = function(base, constructor) {
+    // Class being extended.
+    constructor = constructor || function() {};
+    constructor.prototype = Object.create(base.prototype);
+    constructor.prototype.constructor = constructor;
+
+    // Convenience proprety.
+    constructor._super = base.prototype;
+
+    // Super constructor method.
+    // See jquery-ui $.widget().
+    constructor.super = function(self) {
+      base.prototype.constructor.apply(self, Array.prototype.slice.call(arguments, 1));
+      return arguments[0];
+    };
+
+    return constructor;
+  };
+
 });

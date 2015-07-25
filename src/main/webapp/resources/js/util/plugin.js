@@ -11,14 +11,23 @@ define(['jquery'], function() {
    * @returns {Function}
    */
   $.defer = function(callback, delay) {
-    delay = delay || 1000;
+    delay = delay || 0;
 
     var timeout = null;
     return function() {
+      // Preserve arguments.
+      var args = Array.prototype.slice.call(arguments, 0);
+
+      // Cancel previous calls.
       if (timeout) {
         window.clearTimeout(timeout);
       }
-      timeout = window.setTimeout(callback, delay);
+
+      // Set timeout.
+      timeout = window.setTimeout(function() {
+        timeout = null;
+        callback.apply(null, args);
+      }, delay);
     }
   }
 

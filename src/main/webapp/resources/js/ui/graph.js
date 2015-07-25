@@ -2,7 +2,7 @@
 
 'use strict';
 
-define(['angular', 'd3', 'util/plugin', 'util/core'], function(angular) {
+define(['angular', 'd3', 'util/plugin', 'util/core', 'util/util'], function(angular) {
   var NS = $.nx.namespace('ui.graph');
 
   angular.module('ui.graph', [])
@@ -29,25 +29,13 @@ define(['angular', 'd3', 'util/plugin', 'util/core'], function(angular) {
   // http://weblogs.asp.net/dwahlin/creating-custom-angularjs-directives-part-6-using-controllers
   // https://github.com/allenhwkim/angularjs-google-maps/blob/master/directives/map.js
 
-  NS.GraphModel = function() {
+  NS.GraphModel = $.nx.extend(nx.util.Listeners, function() {
+    var self = NS.GraphModel.super(this);
     this.graph = {
       nodes: [],
       links: []
     };
-
-    // TODO(burdon): Util.
-    this.listeners = [];
-  };
-
-  NS.GraphModel.prototype.addListener = function(listener) {
-    this.listeners.push(listener);
-  };
-
-  NS.GraphModel.prototype.fireListeners = function(event) {
-    $.each(this.listeners, function(i, listener) {
-      listener(event);
-    })
-  };
+  });
 
   NS.GraphModel.prototype.clear = function() {
     this.graph = {
@@ -63,7 +51,7 @@ define(['angular', 'd3', 'util/plugin', 'util/core'], function(angular) {
     d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, graph) {
       if (error) throw error;
       self.graph = graph;
-      self.fireListeners();
+      self.fireListeners('LOADED');
     });
   };
 
@@ -133,12 +121,16 @@ define(['angular', 'd3', 'util/plugin', 'util/core'], function(angular) {
   /**
    * Sets the model.
    * @param model
-   * @returns {GraphControl}
+   * @returns {NS.GraphControl}
    */
   NS.GraphControl.prototype.setModel = function(model) {
-    // TODO(burdon): Unlink existing.
+    if (this.model) {
+      this.model.removeListener(this.update.bind(this));
+    }
     this.model = model;
-    this.model.addListener(this.update.bind(this));
+    if (this.model) {
+      this.model.addListener(this.update.bind(this));
+    }
     return this;
   };
 
@@ -208,7 +200,7 @@ define(['angular', 'd3', 'util/plugin', 'util/core'], function(angular) {
   /**
    * Set model.
    */
-  NS.GraphControl.prototype.update = function() {
+  NS.GraphControl.prototype.update = function(event) {
     var links = this.model && this.model.graph.links || [];
     var nodes = this.model && this.model.graph.nodes || [];
 
