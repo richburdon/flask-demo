@@ -55,6 +55,25 @@ define(['angular', 'd3', 'util/plugin', 'util/core', 'util/util'], function(angu
     });
   };
 
+  NS.GraphModel.prototype.add = function() {
+    var self = this;
+    var source = self.graph.nodes[Math.floor(Math.random() * self.graph.nodes.length)];
+    var target = {
+      'id': 'node' + new Date().getTime(),
+      'group': Math.floor(Math.random() * 3) + 1
+    };
+
+    self.graph.nodes.push(target);
+    if (source) {
+      self.graph.links.push({
+        source: source,
+        target: target
+      });
+    }
+
+    self.fireListeners();
+  };
+
   NS.GraphModel.prototype.load_remote = function() {
     var self = this;
     d3.json('/data', function(error, graph) {
@@ -79,7 +98,7 @@ define(['angular', 'd3', 'util/plugin', 'util/core', 'util/util'], function(angu
     });
   };
 
-  NS.GraphModel.prototype.post = function() {
+  NS.GraphModel.prototype.add_remote = function() {
     var self = this;
     $.ajax({
       type: 'POST',

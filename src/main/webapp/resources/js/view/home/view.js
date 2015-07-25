@@ -19,8 +19,8 @@ define([
 
     .controller('MainViewController', ['$scope', 'AppInfo', function($scope, info) {
 
-      // TODO(burdon): Trigger update to App Info.
-      var KEY = 'Update';
+      // Trigger update to App Info.
+      var KEY = 'Updated';
       setInterval(function() {
         var kv = null;
         $.each(info, function(i, test) {

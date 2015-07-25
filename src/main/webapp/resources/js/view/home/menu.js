@@ -16,6 +16,10 @@ define(['angular'], function(angular) {
         model.load();
       };
 
+      $scope.add = function() {
+        model.add();
+      };
+
     }]);
 
 });

@@ -21,9 +21,7 @@ define(['angular'], function(angular) {
 
     .controller('TableController', ['$injector', '$scope', function($injector, $scope) {
       $scope.rows = $scope.data && $injector.get($scope.data);
-      $scope.$watch('rows', function() {
-        console.log('Changed');
-      }, true);
+//    $scope.$watch('rows', function() {}, true);
     }]);
 
 });
