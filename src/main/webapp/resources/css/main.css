@@ -65,6 +65,9 @@ h1, h2, h3 {
   padding: 10px;
   z-index: 1;
 }
+.app-menu button {
+  font-size: xx-large;
+}
 
 .app-status {
   position: absolute;
