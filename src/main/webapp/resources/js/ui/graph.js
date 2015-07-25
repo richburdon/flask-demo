@@ -2,15 +2,34 @@
 
 'use strict';
 
-define(['angular', 'd3', 'util/plugin'], function(angular) {
+define(['angular', 'd3', 'util/plugin', 'util/core'], function(angular) {
+  var NS = $.nx.namespace('ui.graph');
 
-  // TODO(burdon): Split Control(View?)/Model and Controller (pattern). In same directory?
+  angular.module('ui.graph', [])
+
+    /**
+     * <ui-graph model="NAME"></ui-graph>
+     */
+    .directive('uiGraph', [function() {
+      return {
+        template: '<svg></svg>',
+        controller: 'GraphController',
+        scope: {
+          model: '@model' // Bind the element's attribute to the scope.
+        }
+      }
+    }])
+
+    .controller('GraphController', ['$injector', '$scope', '$element', function($injector, $scope, $element) {
+      var model = $scope.model && $injector.get($scope.model);
+      $scope.graph = new NS.GraphControl($element).setModel(model);
+    }]);
 
   // https://docs.angularjs.org/guide/directive
   // http://weblogs.asp.net/dwahlin/creating-custom-angularjs-directives-part-6-using-controllers
   // https://github.com/allenhwkim/angularjs-google-maps/blob/master/directives/map.js
 
-  var GraphModel = function() {
+  NS.GraphModel = function() {
     this.graph = {
       nodes: [],
       links: []
@@ -20,17 +39,17 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
     this.listeners = [];
   };
 
-  GraphModel.prototype.addListener = function(listener) {
+  NS.GraphModel.prototype.addListener = function(listener) {
     this.listeners.push(listener);
   };
 
-  GraphModel.prototype.fireListeners = function(event) {
+  NS.GraphModel.prototype.fireListeners = function(event) {
     $.each(this.listeners, function(i, listener) {
       listener(event);
     })
   };
 
-  GraphModel.prototype.clear = function() {
+  NS.GraphModel.prototype.clear = function() {
     this.graph = {
       nodes: [],
       links: []
@@ -38,7 +57,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
     this.fireListeners();
   };
 
-  GraphModel.prototype.load = function() {
+  NS.GraphModel.prototype.load = function() {
     var self = this;
     // TODO(burdon): Use jquery.
     d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, graph) {
@@ -48,7 +67,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
     });
   };
 
-  GraphModel.prototype.load_remote = function() {
+  NS.GraphModel.prototype.load_remote = function() {
     var self = this;
     d3.json('/data', function(error, graph) {
       if (error) throw error;
@@ -72,7 +91,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
     });
   };
 
-  GraphModel.prototype.post = function() {
+  NS.GraphModel.prototype.post = function() {
     var self = this;
     $.ajax({
       type: 'POST',
@@ -87,7 +106,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
 
   // TODO(burdon): Keep Graph Control pure from Angular? Managed by Angular controller. Factor out?
   // TODO(burdon): Init Graph with attrs?
-  var GraphControl = function(root) {
+  NS.GraphControl = function(root) {
 
     // Get elements.
     this.root = $(root);
@@ -116,7 +135,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
    * @param model
    * @returns {GraphControl}
    */
-  GraphControl.prototype.setModel = function(model) {
+  NS.GraphControl.prototype.setModel = function(model) {
     // TODO(burdon): Unlink existing.
     this.model = model;
     this.model.addListener(this.update.bind(this));
@@ -126,7 +145,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
   /**
    * Resize the SVG element to expand to its container.
    */
-  GraphControl.prototype.resize = function() {
+  NS.GraphControl.prototype.resize = function() {
     var parent = this.root.parent();
     var width = parent.width();
     var height = parent.height();
@@ -143,7 +162,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
   /**
    * D3 force ticker.
    */
-  GraphControl.prototype.tick = function() {
+  NS.GraphControl.prototype.tick = function() {
     this.link
       .attr('x1', function(d) { return d.source.x; })
       .attr('y1', function(d) { return d.source.y; })
@@ -158,7 +177,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
   /**
    * Start the force.
    */
-  GraphControl.prototype.start = function() {
+  NS.GraphControl.prototype.start = function() {
     var links = this.model && this.model.graph.links || [];
     var nodes = this.model && this.model.graph.nodes || [];
 
@@ -189,7 +208,7 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
   /**
    * Set model.
    */
-  GraphControl.prototype.update = function() {
+  NS.GraphControl.prototype.update = function() {
     var links = this.model && this.model.graph.links || [];
     var nodes = this.model && this.model.graph.nodes || [];
 
@@ -221,24 +240,5 @@ define(['angular', 'd3', 'util/plugin'], function(angular) {
     this.start();
   };
 
-	return angular.module('ui.graph', [])
-
-    // TODO(burdon): Move to main. Defaults? What if unbound?
-    .factory('GraphModel', function() {
-      return new GraphModel();
-    })
-
-    .controller('GraphController', ['$scope', '$element', 'GraphModel', function($scope, $element, model) {
-      $scope.graph = new GraphControl($element).setModel(model);
-      // TODO(burdon): Connect to controls.
-      model.load();
-    }])
-
-    .directive('uiGraph', [function() {
-      return {
-        template: '<svg></svg>',
-        controller: 'GraphController'
-      }
-    }]);
-
+  return NS;
 });

@@ -19,16 +19,16 @@ h1, h2, h3 {
  * D3
  */
 
-.x-graph .node {
+.app-graph .node {
   stroke: #fff;
   stroke-width: 1.5px;
 }
 
-.x-graph .node.g-1 { fill: #1f77b4; }
-.x-graph .node.g-2 { fill: #ff7f0e; }
-.x-graph .node.g-3 { fill: #2ca02c; }
+.app-graph .node.g-1 { fill: #1f77b4; }
+.app-graph .node.g-2 { fill: #ff7f0e; }
+.app-graph .node.g-3 { fill: #2ca02c; }
 
-.x-graph .link {
+.app-graph .link {
   stroke: #999;
   stroke-opacity: .6;
 }
@@ -37,7 +37,7 @@ h1, h2, h3 {
  *
  */
 
-.x-debug:after {
+.app-debug:after {
   position: absolute;
   right: 2px;
   bottom: 2px;
@@ -45,7 +45,7 @@ h1, h2, h3 {
   font-size: x-small;
 }
 
-.x-info {
+.app-info {
   position: absolute;
   left: 20px;
   top: 20px;
@@ -56,7 +56,7 @@ h1, h2, h3 {
   z-index: 1;
 }
 
-.x-controls {
+.app-menu {
   position: absolute;
   right: 20px;
   top: 20px;
@@ -66,7 +66,7 @@ h1, h2, h3 {
   z-index: 1;
 }
 
-.x-status {
+.app-status {
   position: absolute;
   left: 20px;
   right: 20px;
@@ -80,7 +80,7 @@ h1, h2, h3 {
   z-index: 1;
 }
 
-.x-graph {
+.app-graph {
   position: absolute;
   left: 0;
   right: 0;

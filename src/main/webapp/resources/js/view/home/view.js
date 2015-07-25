@@ -4,27 +4,41 @@
 
 define([
     'angular',
-    'view/home/controls',
+    'view/home/menu',
     'ui/table',
     'ui/status',
     'ui/graph'
   ], function(angular) {
 
 	return angular.module('demo.view.home', [
-      'demo.view.home.controls',
+      'demo.view.home.menu',
       'ui.table',
       'ui.status',
       'ui.graph'
     ])
 
-    // Specialize the TableController binding the app info provider.
-    .controller('AppInfoTableController', ['$scope', '$controller', function($scope, $controller) {
-      angular.extend(this, $controller('TableController', {$scope: $scope, data: $scope.app_info}));
-    }])
+    .controller('MainViewController', ['$scope', 'AppInfo', function($scope, info) {
 
-    // Injects the app info (i.e., factory from main app).
-    .controller('MainViewController', ['$scope', 'app_info', function($scope, app_info) {
-      $scope.app_info = app_info;
+      // TODO(burdon): Trigger update to App Info.
+      var KEY = 'Update';
+      setInterval(function() {
+        var kv = null;
+        $.each(info, function(i, test) {
+          if (test.key == KEY) {
+            kv = test;
+            return true;
+          }
+        });
+        if (!kv) {
+          kv = {
+            key: KEY
+          };
+          info.push(kv);
+        }
+        kv.value = new Date().getTime();
+        $scope.$digest();
+      }, 1000);
+
     }]);
 
 });

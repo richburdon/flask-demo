@@ -6,14 +6,24 @@ define(['angular'], function(angular) {
 
 	return angular.module('ui.table', [])
 
-    .controller('TableController', ['$scope', 'data', function($scope, data) {
-      $scope.data = data;
-    }])
-
+    /**
+     * <ui-table data="NAME"></ui-table>
+     */
     .directive('uiTable', function() {
       return {
-        templateUrl: '/res/js/ui/table.html'
+        controller: 'TableController',
+        templateUrl: '/res/js/ui/table.html',
+        scope: {
+          data: '@data' // Bind the element's attribute to the scope.
+        }
       }
-    });
+    })
+
+    .controller('TableController', ['$injector', '$scope', function($injector, $scope) {
+      $scope.rows = $scope.data && $injector.get($scope.data);
+      $scope.$watch('rows', function() {
+        console.log('Changed');
+      }, true);
+    }]);
 
 });

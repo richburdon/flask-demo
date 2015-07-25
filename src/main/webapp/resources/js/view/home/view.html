@@ -1,22 +1,21 @@
 <div>
 
-  <div class="x-info">
-    <div ng-controller="AppInfoTableController">
-      <div ui-table></div>
+  <div class="app-info">
+    <ui-table data="AppInfo"></ui-table>
+  </div>
+
+  <div class="app-graph">
+    <ui-graph model="GraphModel"></ui-graph>
+  </div>
+
+  <div class="app-menu">
+    <div ng-controller="MenuController">
+      <button ng-click="clear()">Clear</button>
+      <button ng-click="load()">Load</button>
     </div>
   </div>
 
-  <div class="x-graph">
-    <div ui-graph="center"></div>
-  </div>
-
-  <div class="x-controls">
-    <div ng-controller="ControlsController">
-      <button ng-click="test()">Test</button>
-    </div>
-  </div>
-
-  <div class="x-status">
+  <div class="app-status">
     <div ng-controller="StatusController">{{ message }}</div>
   </div>
 

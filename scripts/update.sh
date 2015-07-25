@@ -7,7 +7,7 @@ brew upgrade
 
 npm install
 npm update
-bower update
+bower update -F
 
 pip install virtualenv
 pip install --upgrade virtualenv
