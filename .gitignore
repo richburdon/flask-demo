@@ -2,16 +2,12 @@
 # http://git-scm.com/docs/gitignore
 #
 
-.classpath
 .DS_Store
+.classpath
 .settings/
 
 node_modules/
-out/
-overlays/
-
-/target/
-/tools/
+tools/
 
 *.pyc
 *.log
