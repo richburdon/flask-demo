@@ -20,6 +20,29 @@ define(['angular'], function(angular) {
         model.add();
       };
 
+      // Test robot
+      var Robot = function() {
+        this._interval = null;
+      };
+      Robot.prototype.start = function() {
+        this._interval = setInterval(function() {
+          model.add();
+        }, 200);
+      };
+      Robot.prototype.stop = function() {
+        clearInterval(this._interval);
+        this._interval = null;
+      };
+      var robot = new Robot();
+
+      $scope.start = function() {
+        robot.start();
+      };
+
+      $scope.stop = function() {
+        robot.stop();
+      };
+
     }]);
 
 });
