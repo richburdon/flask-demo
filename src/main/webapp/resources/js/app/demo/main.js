@@ -12,11 +12,13 @@ define(
   ], function(io) {
 
 
-    // TODO(burdon): Socket test.
+    // TODO(burdon): Create network abstraction (Proxy) for Request/Response and inject this (wraps all ajax/socket IO)
     // https://github.com/socketio/socket.io-client
     if ($.nx.queryParam('test')) {
-      // TODO(burdon): Get from AppInfo
-      var socket = io.connect('http://' + window['__APP_CONFIG__'].app.server + '/nx');
+      console.log('Configuring websockest...');
+
+      // TODO(burdon): Get URL form config (with namespace) if server is configured for websocket.
+      var socket = io.connect(window['__APP_CONFIG__'].app.server + '/nx');
 
       socket.on('connect', function() {
         console.log('Connected');
@@ -28,9 +30,10 @@ define(
         console.log('Disconnected');
       });
 
+      // TODO(burdon): Extract event type names as constant (part of __APP_CONFIG__?).
       socket.on('MyEvent', function(data, ack) {
         console.log('Received: ' + JSON.stringify(data));
-        ack();
+        ack && ack();
       });
     }
 
@@ -56,17 +59,14 @@ define(
         return model;
       })
 
-      .config([
-        '$urlRouterProvider', '$stateProvider', function($urlRouterProvider, $stateProvider) {
+      .config(['$urlRouterProvider', '$stateProvider',
+        function($urlRouterProvider, $stateProvider) {
 
           $urlRouterProvider
-            // Redirect if the url is ever invalid.
+            // Redirect if the url is invalid.
             .otherwise('/home');
 
           // http://angular-ui.github.io/ui-router/site/#/api/ui.router
-          // https://github.com/angular-ui/ui-router/wiki
-          // https://github.com/angular-ui/ui-router/blob/master/sample/app/app.js
-
           $stateProvider
             .state('home', {
               url: '/home',

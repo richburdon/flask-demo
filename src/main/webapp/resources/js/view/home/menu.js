@@ -28,6 +28,10 @@ define(['angular'], function(angular) {
         robot.stop();
       };
 
+      $scope.ping = function() {
+        $.get('/ping');
+      };
+
       // Test robot
       var Robot = function() {
         this._interval = null;

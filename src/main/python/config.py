@@ -15,13 +15,16 @@ from injector import Module, inject, singleton
 class Config(object):
 
     def __init__(self):
+        from urlparse import urlparse
+        url = urlparse(flask.request.url_root)
+
         # Defaults.
         self.config = EasyDict({
             # Client configuration.
             'client': {
                 'app': {
                     'name': self.app.config['APP_NAME'],
-                    'server': flask.request.remote_addr + ':' + str(self.app.config['PORT'])
+                    'server': url.scheme + '://' + url.netloc
                 }
             },
             # Service configurations.
