@@ -2,10 +2,10 @@
 
 'use strict';
 
-define(['angular', 'd3', 'util/plugin', 'util/core', 'util/util'], function(angular) {
-  var NS = $.nx.namespace('ui.graph');
+define(['angular', 'd3', 'nx/util/util'], function(angular) {
+  var NS = $.nx.namespace('nx.ui.graph');
 
-  angular.module('ui.graph', [])
+  angular.module('nx.ui.graph', [])
 
     /**
      * <ui-graph model="NAME"></ui-graph>
@@ -29,6 +29,7 @@ define(['angular', 'd3', 'util/plugin', 'util/core', 'util/util'], function(angu
   // http://weblogs.asp.net/dwahlin/creating-custom-angularjs-directives-part-6-using-controllers
   // https://github.com/allenhwkim/angularjs-google-maps/blob/master/directives/map.js
 
+  // TODO(burdon): Base class for model.
   NS.GraphModel = $.nx.extend(nx.util.Listeners, function() {
     var self = NS.GraphModel.super(this);
     this.graph = {
@@ -133,7 +134,7 @@ define(['angular', 'd3', 'util/plugin', 'util/core', 'util/util'], function(angu
     this.link = this.svg.selectAll('.link');
 
     // Resize handler.
-    d3.select(window).on('resize', $.defer(this.resize.bind(this), 100));
+    d3.select(window).on('resize', $.nx.defer(this.resize.bind(this), 100));
     this.resize();
   };
 

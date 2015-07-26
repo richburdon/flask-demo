@@ -4,7 +4,7 @@
 
 define(['angular'], function(angular) {
 
-	return angular.module('ui.status', [])
+	return angular.module('nx.ui.status', [])
 
     .controller('StatusController', ['$scope', function($scope) {
       $scope.message = 'StatusController';

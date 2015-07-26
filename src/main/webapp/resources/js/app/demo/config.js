@@ -29,14 +29,22 @@ require.config({
     'd3':                 '../lib/d3/d3',
 
     //
-    'jquery':             '../lib/jquery/dist/jquery'
+    'jquery':             '../lib/jquery/dist/jquery',
+
+    // TODO(burdon): Posted issue to support bower.
+    // https://github.com/socketio/socket.io-client/issues/864
+    // http://socket.io/docs/client-api/
+    'socketio':           'http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min'
   },
 
 	shim: {
+    'socketio': {
+      exports: 'io'
+    },
     'angular': {
       'exports': 'angular'
     },
-		'angular-ui-router':  ['angular']
+		'angular-ui-router': ['angular']
   },
 
   priority: [
@@ -49,6 +57,8 @@ require.config({
 // App
 //
 require(['jquery', 'angular', 'app/demo/main'], function(jquery, angular) {
+
+  'use strict';
 
   // Wait for DOM.
   angular.element($('#app')[0]).ready(function() {

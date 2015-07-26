@@ -20,11 +20,20 @@ define(['angular'], function(angular) {
         model.add();
       };
 
+      $scope.start = function() {
+        robot.start();
+      };
+
+      $scope.stop = function() {
+        robot.stop();
+      };
+
       // Test robot
       var Robot = function() {
         this._interval = null;
       };
       Robot.prototype.start = function() {
+        this.stop();
         this._interval = setInterval(function() {
           model.add();
         }, 200);
@@ -34,14 +43,6 @@ define(['angular'], function(angular) {
         this._interval = null;
       };
       var robot = new Robot();
-
-      $scope.start = function() {
-        robot.start();
-      };
-
-      $scope.stop = function() {
-        robot.stop();
-      };
 
     }]);
 

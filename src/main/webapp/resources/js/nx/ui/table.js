@@ -4,7 +4,7 @@
 
 define(['angular'], function(angular) {
 
-	return angular.module('ui.table', [])
+	return angular.module('nx.ui.table', [])
 
     /**
      * <ui-table data="NAME"></ui-table>
@@ -12,7 +12,7 @@ define(['angular'], function(angular) {
     .directive('uiTable', function() {
       return {
         controller: 'TableController',
-        templateUrl: '/res/js/ui/table.html',
+        templateUrl: '/res/js/nx/ui/table.html',
         scope: {
           data: '@data' // Bind the element's attribute to the scope.
         }

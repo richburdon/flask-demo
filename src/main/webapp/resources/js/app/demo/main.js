@@ -4,13 +4,15 @@
 
 define(
   [
+    'socketio',
     'angular',
     'angular-ui-router',
     'view/home/view',
     'view/test/view'
-  ], function(angular) {
+  ], function(io) {
 
     // TODO(burdon): Get from server in global JS variable.
+    // TODO(burdon): Util to manage array as sorted map.
     var APP_INFO = [
       {
         key: 'App',
@@ -21,6 +23,26 @@ define(
         value: '0.0.1'
       }
     ];
+
+
+
+    // TODO(burdon): Socket test.
+    // https://github.com/socketio/socket.io-client
+    var socket = io.connect('http://localhost:5000/nx'); // TODO(burdon): Config from global vars.
+    socket.on('connect', function() {
+      console.log('Connected');
+      console.log('Sending...');
+      socket.emit('MyEvent', { data: 'test' });
+    });
+    socket.on('disconnect', function() {
+      console.log('Disconnected');
+    });
+    socket.on('MyEvent', function(data, ack) {
+      console.log('Received: ' + JSON.stringify(data));
+      ack();
+    });
+
+
 
 
     // Define the main app.
@@ -38,7 +60,7 @@ define(
 
       // Graph Model.
       .factory('GraphModel', function() {
-        var model = new ui.graph.GraphModel();
+        var model = new nx.ui.graph.GraphModel();
         model.load();
         return model;
       })

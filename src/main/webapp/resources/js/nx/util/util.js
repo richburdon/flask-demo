@@ -1,9 +1,6 @@
 // Copyright 2014 Alien Laboratories, Inc.
 
-/**
- * NX Util classes.
- */
-define(['util/core'], function() {
+define(['nx/util/core'], function() {
   var NS = $.nx.namespace('nx.util');
 
   /**
@@ -14,7 +11,7 @@ define(['util/core'], function() {
     var self = this;
 
     self._listeners = [];
-    self._fire = $.defer(self._fireListeners.bind(self), 0);
+    self._fire = $.nx.defer(self._fireListeners.bind(self), 0);
   };
 
   /**

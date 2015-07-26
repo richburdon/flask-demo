@@ -5,16 +5,16 @@
 define([
     'angular',
     'view/home/menu',
-    'ui/table',
-    'ui/status',
-    'ui/graph'
+    'nx/ui/table',
+    'nx/ui/status',
+    'nx/ui/graph'
   ], function(angular) {
 
 	return angular.module('demo.view.home', [
       'demo.view.home.menu',
-      'ui.table',
-      'ui.status',
-      'ui.graph'
+      'nx.ui.table',
+      'nx.ui.status',
+      'nx.ui.graph'
     ])
 
     .controller('MainViewController', ['$scope', 'AppInfo', function($scope, info) {

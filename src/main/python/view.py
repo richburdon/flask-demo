@@ -33,6 +33,7 @@ class HomeView(flask.views.MethodView):
     def get(self):
         return flask.render_template('home.html', config=self.config, db=self.db)
 
+
 @inject(config=Config)
 class DemoView(flask.views.MethodView):
 
