@@ -18,7 +18,7 @@ class Database(object):
     """
 
     def __init__(self):
-        self.graph = Graph('http://' + self.config.neo_url + '/db/data/')
+        self.graph = Graph('http://' + self.config['service.neo'] + '/db/data/')
 
     def __str__(self):
         items = self.graph.cypher.execute('MATCH (item:Item) RETURN item')

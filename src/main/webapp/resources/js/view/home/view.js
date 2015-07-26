@@ -20,22 +20,9 @@ define([
     .controller('MainViewController', ['$scope', 'AppInfo', function($scope, info) {
 
       // Trigger update to App Info.
-      var KEY = 'Updated';
+      // TODO(burdon): Move this (need scope)
       setInterval(function() {
-        var kv = null;
-        $.each(info, function(i, test) {
-          if (test.key == KEY) {
-            kv = test;
-            return true;
-          }
-        });
-        if (!kv) {
-          kv = {
-            key: KEY
-          };
-          info.push(kv);
-        }
-        kv.value = new Date().getTime();
+        info.updated = new Date().getTime();
         $scope.$digest();
       }, 1000);
 

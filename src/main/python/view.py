@@ -41,7 +41,7 @@ class DemoView(flask.views.MethodView):
     NAME = 'Demo'
 
     def get(self):
-        return flask.render_template('demo.html')
+        return flask.render_template('demo.html', config=self.config['client'])
 
 
 @inject(db=Database)

@@ -11,37 +11,26 @@ define(
     'view/test/view'
   ], function(io) {
 
-    // TODO(burdon): Get from server in global JS variable.
-    // TODO(burdon): Util to manage array as sorted map.
-    var APP_INFO = [
-      {
-        key: 'App',
-        value: 'Demo'
-      },
-      {
-        key: 'Version',
-        value: '0.0.1'
-      }
-    ];
-
 
 
     // TODO(burdon): Socket test.
     // https://github.com/socketio/socket.io-client
-    var socket = io.connect('http://localhost:5000/nx'); // TODO(burdon): Config from global vars.
-    socket.on('connect', function() {
-      console.log('Connected');
-      console.log('Sending...');
-      socket.emit('MyEvent', { data: 'test' });
-    });
-    socket.on('disconnect', function() {
-      console.log('Disconnected');
-    });
-    socket.on('MyEvent', function(data, ack) {
-      console.log('Received: ' + JSON.stringify(data));
-      ack();
-    });
-
+    if (false) {
+      // TODO(burdon): Get from AppInfo
+      var socket = io.connect('http://' + window['__APP_CONFIG__']['app']['server'] + '/nx');
+      socket.on('connect', function() {
+        console.log('Connected');
+        console.log('Sending...');
+        socket.emit('MyEvent', {data: 'test'});
+      });
+      socket.on('disconnect', function() {
+        console.log('Disconnected');
+      });
+      socket.on('MyEvent', function(data, ack) {
+        console.log('Received: ' + JSON.stringify(data));
+        ack();
+      });
+    }
 
 
 
@@ -55,7 +44,8 @@ define(
 
       // Provide App Data.
       .factory('AppInfo', function() {
-        return APP_INFO;
+        // TODO(burdon): Wrap AppConfig with object.
+        return window['__APP_CONFIG__']['app'];
       })
 
       // Graph Model.

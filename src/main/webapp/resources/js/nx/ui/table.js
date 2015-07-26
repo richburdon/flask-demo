@@ -14,13 +14,13 @@ define(['angular'], function(angular) {
         controller: 'TableController',
         templateUrl: '/res/js/nx/ui/table.html',
         scope: {
-          data: '@data' // Bind the element's attribute to the scope.
+          bind: '@bind' // Bind the element's attribute to the scope.
         }
       }
     })
 
     .controller('TableController', ['$injector', '$scope', function($injector, $scope) {
-      $scope.rows = $scope.data && $injector.get($scope.data);
+      $scope.data = $scope.bind && $injector.get($scope.bind);
 //    $scope.$watch('rows', function() {}, true);
     }]);
 

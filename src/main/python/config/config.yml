@@ -3,6 +3,8 @@
 # Set FLASK_ENV to the environment (defult: DEVELOPMENT)
 
 COMMON: &common
+  APP_NAME: 'Flask Demo'
+
   DEBUG: False
   PROD: False
 

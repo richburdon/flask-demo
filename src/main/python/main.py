@@ -8,7 +8,7 @@ import logging
 from flask_environments import Environments
 from flask_injector import FlaskInjector
 from config import ConfigModule
-from websocket import SocketModule, socketio
+#from websocket import SocketModule, socketio
 from view import ViewModule
 
 
@@ -38,7 +38,7 @@ logging.getLogger().addHandler(logging.StreamHandler())
 # Flask injection modules.
 # https://github.com/alecthomas/injector
 FlaskInjector(app=app, modules=[
-    SocketModule,
+#    SocketModule,
     ConfigModule,
     ViewModule
 ])
@@ -46,4 +46,5 @@ FlaskInjector(app=app, modules=[
 # Start
 if __name__ == '__main__':
     logging.info('Starting...')
-    socketio.run(app, port=app.config['PORT'])
+#    socketio.run(app, port=app.config['PORT'])
+    app.run(port=app.config['PORT'])

@@ -1,3 +1,5 @@
+easydict
+
 Flask
 Flask-Injector
 flask-environments

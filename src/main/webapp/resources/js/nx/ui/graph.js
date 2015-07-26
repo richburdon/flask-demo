@@ -15,13 +15,13 @@ define(['angular', 'd3', 'nx/util/util'], function(angular) {
         template: '<svg></svg>',
         controller: 'GraphController',
         scope: {
-          model: '@model' // Bind the element's attribute to the scope.
+          bind: '@bind' // Bind the element's attribute to the scope.
         }
       }
     }])
 
     .controller('GraphController', ['$injector', '$scope', '$element', function($injector, $scope, $element) {
-      var model = $scope.model && $injector.get($scope.model);
+      var model = $scope.bind && $injector.get($scope.bind);
       $scope.graph = new NS.GraphControl($element).setModel(model);
     }]);
 
