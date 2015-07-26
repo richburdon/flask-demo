@@ -47,4 +47,4 @@ FlaskInjector(app=app, modules=[
 if __name__ == '__main__':
     logging.info('Starting...')
 #    socketio.run(app, port=app.config['PORT'])
-    app.run(port=app.config['PORT'])
+    app.run(host='0.0.0.0', port=app.config['PORT'])
