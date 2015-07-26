@@ -146,6 +146,33 @@ define(['jquery'], function() {
         callback.apply(null, args);
       }, delay);
     }
+  };
+
+  /**
+   * Returns the named URL param.
+   *
+   * @param key Key.
+   * @param [opt_def] Default value.
+   * @returns {*}
+   */
+  $.nx.queryParam = function(key, opt_def) {
+    if (opt_def == null) {
+      opt_def = "";
+    }
+    var search = decodeURI(location.search);
+    if (search == "") {
+      return opt_def;
+    }
+    search = search.substr(1);
+    var params = search.split('&');
+    for (var i = 0; i < params.length; i++) {
+      var pairs = params[i].split('=');
+      if (pairs[0] == key) {
+        return pairs[1];
+      }
+    }
+
+    return opt_def;
   }
 
 });

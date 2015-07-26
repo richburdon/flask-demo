@@ -8,6 +8,7 @@ COMMON: &common
   DEBUG: False
   PROD: False
 
+  HOST: 0.0.0.0     # NOTE: Important for nginx config.
   PORT: 5000
 
   LOG_LEVEL: DEBUG
