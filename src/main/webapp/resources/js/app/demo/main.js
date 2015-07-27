@@ -11,7 +11,7 @@ define(
     'view/test/view'
   ], function(io) {
 
-
+    // TODO(burdon): Create options server page to configure app.
     // TODO(burdon): Create network abstraction (Proxy) for Request/Response and inject this (wraps all ajax/socket IO)
     // https://github.com/socketio/socket.io-client
     if ($.nx.queryParam('test')) {
@@ -37,7 +37,6 @@ define(
       });
     }
 
-
     // Define the main app.
     return angular.module('demo',
       [
@@ -47,17 +46,22 @@ define(
       ])
 
       // Provide App Data.
-      .factory('AppInfo', function() {
+      .factory('AppInfo', ['GraphModel', function(model) {
         // TODO(burdon): Wrap AppConfig with object.
-        return window['__APP_CONFIG__']['app'];
-      })
+        var app = window['__APP_CONFIG__']['app'];
+        model.addListener(function() {
+          app.nodes = model.graph.nodes.length;
+        });
+
+        return app;
+      }])
 
       // Graph Model.
-      .factory('GraphModel', function() {
+      .factory('GraphModel', [function() {
         var model = new nx.ui.graph.GraphModel();
         model.load();
         return model;
-      })
+      }])
 
       .config(['$urlRouterProvider', '$stateProvider',
         function($urlRouterProvider, $stateProvider) {

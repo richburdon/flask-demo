@@ -17,15 +17,6 @@ define([
       'nx.ui.graph'
     ])
 
-    .controller('MainViewController', ['$scope', 'AppInfo', function($scope, info) {
-
-      // Trigger update to App Info.
-      // TODO(burdon): Move this (need scope)
-      setInterval(function() {
-        info.updated = new Date().getTime();
-        $scope.$digest();
-      }, 1000);
-
-    }]);
+    .controller('MainViewController', ['$scope', 'AppInfo', function($scope, info) {}]);
 
 });

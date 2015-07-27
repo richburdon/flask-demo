@@ -8,6 +8,8 @@ from flask.ext.socketio import SocketIO
 from injector import Module, inject
 
 # Main instance.
+# TODO(burdon): Investigate pubnub/pusher API (to enable scaling at later date).
+# TODO(burdon): Configure nginx for sticky sessions.
 socketio = SocketIO()
 
 NS = '/nx'
