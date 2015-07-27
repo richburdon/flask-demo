@@ -28,6 +28,40 @@ define(['jquery'], function() {
   };
 
   /**
+   * Returns true if null or undefined.
+   */
+  $.nx.isNull = function(value) {
+    return (value === undefined || value == null);
+  };
+
+  /**
+   * Gets the value to the given dot-path subtree of the parent object.
+   *
+   * @param obj           Object to set.
+   * @param path          Array of part names, or ot-path of variable to get.
+   * @param [opt_default] Default value.
+   */
+  $.nx.get = function(obj, path, opt_default) {
+    if (!path) {
+      return obj;
+    }
+    if ($.nx.isNull(obj)) {
+      return opt_default;
+    }
+
+    var parts = $.isArray(path) ? path : path.split('.');
+    for (var i = 0; i < parts.length - 1; i++) {
+      obj = obj[parts[i]];
+      if ($.nx.isNull(obj)) {
+        return opt_default;
+      }
+    }
+
+    var value = obj[parts[i]];
+    return value === undefined ? opt_default : value;
+  };
+
+  /**
    * Sets the value to the given dot-path subtree of the parent object.
    *
    * @param obj         Object to set.

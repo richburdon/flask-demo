@@ -13,7 +13,7 @@ from injector import Module, inject
 socketio = SocketIO()
 
 NS = '/nx'
-EVENT_NAME = 'MyEvent'
+EVENT_NAME = 'Message'
 
 
 @socketio.on_error_default
@@ -49,5 +49,5 @@ class SocketModule(Module):
     # Respond asynchronously to connected client.
     @staticmethod
     def ping():
-        socketio.emit(EVENT_NAME, {'data': 'PING'}, namespace=NS)
+        socketio.emit(EVENT_NAME, {'data': 'PONG'}, namespace=NS)
         return flask.json.jsonify({})

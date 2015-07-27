@@ -2,7 +2,7 @@
 
 'use strict';
 
-define(['angular', 'd3', 'nx/util/util'], function(angular) {
+define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   var NS = $.nx.namespace('nx.ui.graph');
 
   angular.module('nx.ui.graph', [])
@@ -30,7 +30,7 @@ define(['angular', 'd3', 'nx/util/util'], function(angular) {
   // https://github.com/allenhwkim/angularjs-google-maps/blob/master/directives/map.js
 
   // TODO(burdon): Base class for model.
-  NS.GraphModel = $.nx.extend(nx.util.Listeners, function() {
+  NS.GraphModel = $.nx.extend(nx.util.callback.Listeners, function() {
     var self = NS.GraphModel.super(this);
     this.graph = {
       nodes: [],

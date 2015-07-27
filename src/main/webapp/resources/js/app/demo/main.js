@@ -4,9 +4,11 @@
 
 define(
   [
-    'socketio',
     'angular',
     'angular-ui-router',
+    'nx/data/database',
+    'nx/net/proxy',
+    'nx/util/config',
     'view/home/view',
     'view/test/view'
   ], function(io) {
@@ -14,28 +16,7 @@ define(
     // TODO(burdon): Create options server page to configure app.
     // TODO(burdon): Create network abstraction (Proxy) for Request/Response and inject this (wraps all ajax/socket IO)
     // https://github.com/socketio/socket.io-client
-    if ($.nx.queryParam('test')) {
-      console.log('Configuring websockest...');
-
-      // TODO(burdon): Get URL form config (with namespace) if server is configured for websocket.
-      var socket = io.connect(window['__APP_CONFIG__'].app.server + '/nx');
-
-      socket.on('connect', function() {
-        console.log('Connected');
-        console.log('Sending...');
-        socket.emit('MyEvent', {data: 'test'});
-      });
-
-      socket.on('disconnect', function() {
-        console.log('Disconnected');
-      });
-
-      // TODO(burdon): Extract event type names as constant (part of __APP_CONFIG__?).
-      socket.on('MyEvent', function(data, ack) {
-        console.log('Received: ' + JSON.stringify(data));
-        ack && ack();
-      });
-    }
+    console.log('Configuring websockest...');
 
     // Define the main app.
     return angular.module('demo',
@@ -45,10 +26,24 @@ define(
         'demo.view.test'
       ])
 
-      // Provide App Data.
-      .factory('AppInfo', ['GraphModel', function(model) {
-        // TODO(burdon): Wrap AppConfig with object.
-        var app = window['__APP_CONFIG__']['app'];
+      // Config
+      .factory('Config', [function() {
+        return new nx.util.config.Config();
+      }])
+
+      // Database.
+      .factory('Database', ['Proxy', function(proxy) {
+        return new nx.data.database.Database(proxy);
+      }])
+
+      // Network proxy.
+      .factory('Proxy', ['Config', function(config) {
+        return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
+      }])
+
+      // App info.
+      .factory('AppInfo', ['Config', 'GraphModel', function(config, model) {
+        var app = config.get('app');
         model.addListener(function() {
           app.nodes = model.graph.nodes.length;
         });
@@ -57,12 +52,13 @@ define(
       }])
 
       // Graph Model.
-      .factory('GraphModel', [function() {
-        var model = new nx.ui.graph.GraphModel();
+      .factory('GraphModel', ['Database', function(database) {
+        var model = new nx.ui.graph.GraphModel(database);
         model.load();
         return model;
       }])
 
+      // App state machine.
       .config(['$urlRouterProvider', '$stateProvider',
         function($urlRouterProvider, $stateProvider) {
 

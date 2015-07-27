@@ -1,7 +1,7 @@
 // Copyright 2014 Alien Laboratories, Inc.
 
 define(['nx/util/core'], function() {
-  var NS = $.nx.namespace('nx.util');
+  var NS = $.nx.namespace('nx.util.callback');
 
   /**
    * Manages a collection of listener callbacks.
