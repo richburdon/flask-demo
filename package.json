@@ -1,6 +1,7 @@
 {
   "name": "flask-demo",
   "description": "experimental flask demo",
+  "license": "UNLICENSED",
   "version": "0.0.1",
   "repository": {
     "type": "git",

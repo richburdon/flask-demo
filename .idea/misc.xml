@@ -10,5 +10,5 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.10 virtualenv at ~/projects/src/experimental/flask-demo/tools/python" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="richburdon/flask-demo" project-jdk-type="Python SDK" />
 </project>
