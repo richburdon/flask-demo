@@ -46,8 +46,10 @@ class SocketModule(Module):
         self.app.add_url_rule('/ping', 'ping', self.ping)
         socketio.init_app(self.app)
 
+    # TODO(burdon): Move DataView here; impl. multiplexing on event type (normalize socket/ajax comms).
     # Respond asynchronously to connected client.
     @staticmethod
     def ping():
+        # Trigger async response.
         socketio.emit(EVENT_NAME, {'data': 'PONG'}, namespace=NS)
         return flask.json.jsonify({})

@@ -5,6 +5,7 @@
 define(['socketio', 'nx/util/core'], function() {
   var NS = $.nx.namespace('nx.net.proxy');
 
+  // TODO(burdon): Enable routing by event/namespace/room? (e.g., database, etc.) Part of message payload.
   // TODO(burdon): Error handling.
   // TODO(burdon): Manage reconnection.
   // TODO(burdon): Message logger.

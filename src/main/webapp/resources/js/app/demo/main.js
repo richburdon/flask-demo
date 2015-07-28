@@ -53,7 +53,9 @@ define(
 
       // Graph Model.
       .factory('GraphModel', ['Database', function(database) {
-        var model = new nx.ui.graph.GraphModel(database);
+        // TODO(burdon): Runtime param.
+//      var model = new nx.ui.graph.TestGraphModel(database);
+        var model = new nx.ui.graph.DatabaseGraphModel(database);
         model.load();
         return model;
       }])

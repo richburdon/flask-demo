@@ -39,16 +39,23 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   });
 
   NS.GraphModel.prototype.clear = function() {
-    this.graph = {
+    var self = this;
+    self.graph = {
       nodes: [],
       links: []
     };
-    this.fireListeners();
+    self.fireListeners();
   };
 
-  NS.GraphModel.prototype.load = function() {
+  // TestGraphModel
+
+  NS.TestGraphModel = $.nx.extend(NS.GraphModel, function() {
+    var self = NS.TestGraphModel.super(this);
+  });
+
+  NS.TestGraphModel.prototype.load = function() {
     var self = this;
-    // TODO(burdon): Use jquery.
+    // TODO(burdon): DO NOT USE NETWORK FOR TEST.
     d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, graph) {
       if (error) throw error;
       self.graph = graph;
@@ -56,7 +63,7 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     });
   };
 
-  NS.GraphModel.prototype.add = function() {
+  NS.TestGraphModel.prototype.add = function() {
     var self = this;
     var source = self.graph.nodes[Math.floor(Math.random() * self.graph.nodes.length)];
     var target = {
@@ -75,39 +82,58 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     self.fireListeners();
   };
 
-  NS.GraphModel.prototype.load_remote = function() {
+  // DatabaseGraphModel
+
+  NS.DatabaseGraphModel = $.nx.extend(NS.GraphModel, function(database) {
+    var self = NS.DatabaseGraphModel.super(this);
+  });
+
+  NS.DatabaseGraphModel.prototype.load = function() {
     var self = this;
-    d3.json('/data', function(error, graph) {
-      if (error) throw error;
+    // TODO(burdon): Query/Mutate proto.
+    $.ajax({
+      type: 'POST',
+      url: '/data',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify({
+        query: true
+      }),
+      success: function(graph) {
+        // TODO(burdon): Create D3 wrapper.
+        var node_map = {};
+        var i;
+        for (i = 0; i < graph.nodes.length; i++) {
+          var node = graph.nodes[i];
+          node_map[node.id] = node;
+        }
 
-      // TODO(burdon): Create D3 wrapper.
-      var node_map = {};
-      var i;
-      for (i = 0; i < graph.nodes.length; i++) {
-        var node = graph.nodes[i];
-        node_map[node.id] = node;
+        // Map IDs to objects (D3 can handle objects or indexed by not IDs).
+        for (i = 0; i < graph.links.length; i++) {
+          var link = graph.links[i];
+          link.source = node_map[link.source];
+          link.target = node_map[link.target];
+        }
+
+        // TODO(burdon): Merge.
+        self.graph = graph;
+        self.fireListeners();
       }
-
-      // Map IDs to objects (D3 can handle objects or indexed by not IDs).
-      for (i = 0; i < graph.links.length; i++) {
-        var link = graph.links[i];
-        link.source = node_map[link.source];
-        link.target = node_map[link.target];
-      }
-
-      self.fireListeners();
     });
   };
 
-  NS.GraphModel.prototype.add_remote = function() {
+  NS.DatabaseGraphModel.prototype.add = function() {
     var self = this;
     $.ajax({
       type: 'POST',
       url: '/data',
+      contentType: 'application/json; charset=utf-8',
       dataType: 'json',
-      data: {},
+      data: JSON.stringify({
+        mutate: true
+      }),
       success: function() {
-        self.load_remote();
+        self.load(); // TODO(burdon): !!!
       }
     });
   };

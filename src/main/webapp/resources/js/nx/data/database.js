@@ -18,7 +18,32 @@ define(['nx/util/core'], function() {
     });
   };
 
-  NS.Query = function() {};
+  NS.Database._executeQuery = function(query) {
+    var self = this;
+    // TODO(burdon): Track pending queries (for routing).
+    self._proxy.send({
+      query: query._spec
+    });
+  };
+
+  NS.Database.prototype.createQuery = function(callback) {
+    var self = this;
+    return new NS.Query(self, callback);
+  };
+
+  NS.Query = function(database, callback) {
+    var self = this;
+    self._database = database;
+    self._callback = callback;
+    self._spec = {
+      id: new Date().getTime()
+    };
+  };
+
+  NS.Query.prototype.execute = function() {
+    var self = this;
+    self._executeQuery(self);
+  };
 
   return NS;
 });

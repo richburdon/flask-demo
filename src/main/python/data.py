@@ -7,6 +7,9 @@ from config import Config
 from py2neo import Graph, Node, Relationship
 import random
 
+import logging
+LOG = logging.getLogger('view')
+
 
 @singleton
 @inject(config=Config)
@@ -43,3 +46,42 @@ class Database(object):
             self.graph.create(relationship)
         else:
             self.graph.create(target)
+
+
+@singleton
+@inject(database=Database)
+class RequestHandler(object):
+
+    def process_request(self, request):
+        response = {
+            'nodes': [],
+            'links': []
+        }
+
+        if request.get('query'):
+            # TODO(burdon): Select relationships also.
+            records = self.database.select()
+            graph = records.to_subgraph()
+            LOG.info(graph.nodes)
+            LOG.info(graph.relationships)
+
+            node_map = {}
+            for node in graph.nodes:
+                # TODO(burdon): Why are nodes showing up multiple times?
+                if node.ref not in node_map:
+                    node_map[node.ref] = node
+                    response['nodes'].append({
+                        'id': node.ref,
+                        'name': node['name']
+                    })
+
+            for relationship in graph.relationships:
+                response['links'].append({
+                    'source': relationship.start_node.ref,
+                    'target': relationship.end_node.ref
+                })
+        else:
+            logging.info('XXXXXXXXXXXXX')
+            self.database.add()
+
+        return response
