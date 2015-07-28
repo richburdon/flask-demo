@@ -18,6 +18,8 @@ define(
     // https://github.com/socketio/socket.io-client
     console.log('Configuring websockest...');
 
+    // TODO(burdon): IOLogger panel/directive.
+
     // Define the main app.
     return angular.module('demo',
       [

@@ -1,0 +1,43 @@
+# Levels:
+# NOTSET < DEBUG < INFO < WARNING < ERROR < CRITICAL
+
+# https://docs.python.org/2/library/logging.config.html
+# https://docs.python.org/2/howto/logging.html
+# http://stackoverflow.com/questions/17743019/flask-logging-cannot-get-it-to-write-to-a-file
+
+# TODO(burdon): werkzeug HTTP logging is not affected by configuration.
+# NOTE: Red output in PyCharm is stderr.
+# https://github.com/mitsuhiko/werkzeug/issues/750
+# https://docstrings.wordpress.com/2014/04/19/flask-access-log-write-requests-to-file/
+
+version: 1
+
+disable_existing_loggers: True
+
+formatters:
+  default:
+    format: '%(asctime)s [%(name)10.10s|%(filename)-16.16s][%(levelname).4s] %(message)s'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: default
+    stream: ext://sys.stdout
+  error:
+    class: logging.StreamHandler
+    formatter: default
+    stream: ext://sys.stderr
+  file:
+    class: logging.FileHandler
+    formatter: default
+    filename: ../../../app.log
+
+root:
+  level: INFO
+  handlers: [console,file]
+
+loggers:
+  werkzeug:
+    level: INFO
+    handlers: [console,file]
+    propagate: 0

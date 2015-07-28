@@ -11,8 +11,6 @@ COMMON: &common
   HOST: 0.0.0.0     # NOTE: Important for nginx config.
   PORT: 5000
 
-  LOG_LEVEL: DEBUG
-
 #
 # Dev: meaning local workstation (not on Docker)
 #
@@ -21,7 +19,6 @@ DEVELOPMENT: &development
   <<: *common
 
   DEBUG: True
-  LOG_FILE: ../../../app.log
 
 #
 # Prod
@@ -31,4 +28,3 @@ PRODUCTION: &production
   <<: *common
 
   PROD: True
-  LOG_FILE: /home/demo/app.log
