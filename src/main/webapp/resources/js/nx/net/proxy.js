@@ -27,7 +27,7 @@ define(['socketio', 'nx/util/core'], function() {
 
   NS.Proxy.prototype._fireCallback = function(data) {
     var self = this;
-    console.log('Received: ' + JSON.stringify(data));
+    console.log('Received: %o', data);
     // TODO(burdon): Buffer until callback is set?
     self._callback(data);
   };
@@ -42,13 +42,15 @@ define(['socketio', 'nx/util/core'], function() {
 
   NS.AjaxProxy.prototype.send = function(data) {
     var self = this;
-    console.log('Sending: ' + JSON.stringify(data));
+    console.log('Sending: %o', data);
     $.ajax({
       type: 'POST',
       url: self._url,
-      data: data,
+      contentType: 'application/json; charset=utf-8',
       dataType: 'json',
+      data: JSON.stringify(data),
       success: function(data, status, xhr) {
+        // TODO(burdon): Error handling.
         self._fireCallback(data);
       }
     });

@@ -48,14 +48,15 @@ define(
 
       // Network proxy.
       .factory('Proxy', ['Config', function(config) {
-        return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
+        return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
+//      return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
       }])
 
       // App info.
       .factory('AppInfo', ['Config', 'GraphModel', function(config, model) {
         var app = config.get('app');
         model.addListener(function() {
-          app.nodes = model.graph.nodes.length;
+          app.nodes = model._graph.nodes.length;
         });
 
         return app;

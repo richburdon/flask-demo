@@ -30,10 +30,11 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   // https://github.com/allenhwkim/angularjs-google-maps/blob/master/directives/map.js
 
   // TODO(burdon): Base class for model.
-  // TODO(burdon): Use database.
+  // TODO(burdon): Pass in query (shared) and mutator.
   NS.GraphModel = $.nx.extend(nx.util.callback.Listeners, function(database) {
     var self = NS.GraphModel.super(this);
-    this.graph = {
+    self._database = database;
+    self._graph = {
       nodes: [],
       links: []
     };
@@ -41,7 +42,7 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
 
   NS.GraphModel.prototype.clear = function() {
     var self = this;
-    self.graph = {
+    self._graph = {
       nodes: [],
       links: []
     };
@@ -59,22 +60,22 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     // TODO(burdon): DO NOT USE NETWORK FOR TEST.
     d3.json('/res/data/test.json?ts' + new Date().getTime(), function(error, graph) {
       if (error) throw error;
-      self.graph = graph;
+      self._graph = graph;
       self.fireListeners('LOADED');
     });
   };
 
   NS.TestGraphModel.prototype.add = function() {
     var self = this;
-    var source = self.graph.nodes[Math.floor(Math.random() * self.graph.nodes.length)];
+    var source = self._graph.nodes[Math.floor(Math.random() * self._graph.nodes.length)];
     var target = {
       'id': 'node' + new Date().getTime(),
       'type': Math.floor(Math.random() * 3) + 1
     };
 
-    self.graph.nodes.push(target);
+    self._graph.nodes.push(target);
     if (source) {
-      self.graph.links.push({
+      self._graph.links.push({
         source: source,
         target: target
       });
@@ -87,76 +88,59 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
 
   NS.DatabaseGraphModel = $.nx.extend(NS.GraphModel, function(database) {
     var self = NS.DatabaseGraphModel.super(this);
+    self._database = database;
+    self._query = self._database.createQuery(self._onQueryUpdate.bind(self));
   });
+
+  NS.DatabaseGraphModel.prototype._onQueryUpdate = function(message) {
+    var self = this;
+
+    // TODO(burdon): Parse.
+    var graph = message;
+
+    // TODO(burdon): Create D3 wrapper.
+    var node_map = {};
+    var i;
+    for (i = 0; i < graph.nodes.length; i++) {
+      var node = graph.nodes[i];
+      node_map[node.id] = node;
+    }
+
+    // Map IDs to objects (D3 can handle objects or indexed by not IDs).
+    for (i = 0; i < graph.links.length; i++) {
+      var link = graph.links[i];
+      link.source = node_map[link.source];
+      link.target = node_map[link.target];
+    }
+
+    // TODO(burdon): Merge.
+    self._graph = graph;
+    self.fireListeners();
+  };
 
   NS.DatabaseGraphModel.prototype.clear = function() {
     var self = this;
-    $.ajax({
-      type: 'POST',
-      url: '/data',
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      data: JSON.stringify({
-        clear: true
-      }),
-      success: function() {
-        self.load(); // TODO(burdon): !!!
-      }
+    // TODO(burdon): Action (i.e., not mutation).
+    self._database.createMutation().commit(function() {
+      self.load();
     });
   };
 
   NS.DatabaseGraphModel.prototype.load = function() {
     var self = this;
-    // TODO(burdon): Query/Mutate proto.
-    $.ajax({
-      type: 'POST',
-      url: '/data',
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      data: JSON.stringify({
-        query: true
-      }),
-      success: function(graph) {
-        // TODO(burdon): Create D3 wrapper.
-        var node_map = {};
-        var i;
-        for (i = 0; i < graph.nodes.length; i++) {
-          var node = graph.nodes[i];
-          node_map[node.id] = node;
-        }
-
-        // Map IDs to objects (D3 can handle objects or indexed by not IDs).
-        for (i = 0; i < graph.links.length; i++) {
-          var link = graph.links[i];
-          link.source = node_map[link.source];
-          link.target = node_map[link.target];
-        }
-
-        // TODO(burdon): Merge.
-        self.graph = graph;
-        self.fireListeners();
-      }
-    });
+    self._query.execute();
   };
 
   NS.DatabaseGraphModel.prototype.add = function() {
     var self = this;
-    $.ajax({
-      type: 'POST',
-      url: '/data',
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      data: JSON.stringify({
-        mutate: true
-      }),
-      success: function() {
-        self.load(); // TODO(burdon): !!!
-      }
+    self._database.createMutation().commit(function() {
+      console.log('!!!!');
+      self.load();
     });
   };
 
   // TODO(burdon): Keep Graph Control pure from Angular? Managed by Angular controller. Factor out?
-  // TODO(burdon): Init Graph with attrs?
+  // TODO(burdon): Config Graph with DOM attrs?
   NS.GraphControl = function(root) {
 
     // Get elements.
@@ -233,8 +217,8 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
    * Start the force.
    */
   NS.GraphControl.prototype.start = function() {
-    var links = this.model && this.model.graph.links || [];
-    var nodes = this.model && this.model.graph.nodes || [];
+    var links = this.model && this.model._graph.links || [];
+    var nodes = this.model && this.model._graph.nodes || [];
 
     // https://github.com/mbostock/d3/wiki/Force-Layout#links
     this.link = this.link.data(links, function(d) { return d.source.id + '-' + d.target.id; });
@@ -264,8 +248,8 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
    * Set model.
    */
   NS.GraphControl.prototype.update = function(event) {
-    var links = this.model && this.model.graph.links || [];
-    var nodes = this.model && this.model.graph.nodes || [];
+    var links = this.model && this.model._graph.links || [];
+    var nodes = this.model && this.model._graph.nodes || [];
 
     // Preserve current x, y coordinates.
     var node_map = {};

@@ -8,6 +8,7 @@ from flask.ext.socketio import SocketIO
 from injector import Module, inject
 
 # Main instance.
+# https://flask-socketio.readthedocs.org/en/latest/
 # TODO(burdon): Investigate pubnub/pusher API (to enable scaling at later date).
 # TODO(burdon): Configure nginx for sticky sessions.
 socketio = SocketIO()
@@ -31,6 +32,7 @@ def test_disconnect():
     logging.info('Disconnected')
 
 
+# TODO(burdon): Inject request handler?
 @socketio.on(EVENT_NAME, namespace=NS)
 def handle_message(data):
     logging.info('Received: ' + str(data))
