@@ -10,25 +10,35 @@ define(['nx/util/core'], function() {
   NS.Database = function(proxy) {
     var self = this;
 
-    // Routing table for queries.
+    // Routing tables.
     self._queryMap = {};
+    self._mutationMap = {};
 
-    // TODO(burdon): Is the database the only communicator? Split out by namespace?
     // If namespace extend to AJAX-only (i.e., part of message header).
     self._proxy = proxy;
     self._proxy.setCallback(function(message) {
-      // TODO(burdon): Routing: get query ID from response and route to individual query. Need proto.
-      // TODO(burdon): Mutation should trigger queries from server. Ignore here (otherwise empty).
-      $.each(self._queryMap, function(id, query) {
-        query._callback(message);
-      });
+
+      // Handle query results.
+      if (message['query_result']) {
+        // TODO(burdon): Route to query.
+        $.each(self._queryMap, function(id, query) {
+          query._callback(message['query_result']);
+        });
+        delete self._queryMap[message['query_result']['query_id']];
+      }
+
+      // Handle mutation acks.
+      if (message['mutation_result']) {
+        var mutation = self._mutationMap[message['mutation_result']['mutation_id']];
+        delete self._queryMap[message['mutation_result']['mutation_id']];
+        mutation && mutation._callback && mutation._callback();
+      }
     });
   };
 
   NS.Database.prototype._executeQuery = function(query) {
     var self = this;
-    // TODO(burdon): Track pending queries (for routing).
-    self._queryMap[query.id] = query;
+    self._queryMap[$.nx.assert(query._spec.id)] = query;
     self._proxy.send({
       query: query._spec
     });
@@ -36,7 +46,7 @@ define(['nx/util/core'], function() {
 
   NS.Database.prototype._executeMutation = function(mutation) {
     var self = this;
-    // TODO(burdon): Track pending queries (for routing).
+    self._mutationMap[$.nx.assert(mutation._spec.id)] = mutation;
     self._proxy.send({
       mutation: mutation._spec
     });
@@ -85,8 +95,10 @@ define(['nx/util/core'], function() {
     };
   };
 
-  NS.Mutation.prototype.commit = function() {
+  // TODO(burdon): Cannot be called twice.
+  NS.Mutation.prototype.commit = function(opt_callback) {
     var self = this;
+    self._callback = opt_callback;
     self._database._executeMutation(self);
   };
 

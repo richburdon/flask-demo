@@ -61,12 +61,16 @@ class RequestHandler(object):
     """
 
     def process_request(self, request):
-        response = {
-            'nodes': [],
-            'links': []
-        }
+        response = {}
 
+        # Handle queries.
         if request.get('query'):
+            result = {
+                'query_id': request['query']['id'],
+                'nodes': [],
+                'links': []
+            }
+
             records = self.database.select()
             graph = records.to_subgraph()
             # LOG.info(graph.nodes)
@@ -77,20 +81,25 @@ class RequestHandler(object):
                 # TODO(burdon): Why are nodes showing up multiple times?
                 if node.ref not in node_map:
                     node_map[node.ref] = node
-                    response['nodes'].append({
+                    result['nodes'].append({
                         'id': node.ref,
                         'name': node['name'],
                         'type': node['type']
                     })
 
             for relationship in graph.relationships:
-                response['links'].append({
+                result['links'].append({
                     'source': relationship.start_node.ref,
                     'target': relationship.end_node.ref
                 })
-        elif request.get('clear'):
-            self.database.clear()
-        else:
+
+            response['query_result'] = result
+
+        # Handle mutations
+        if request.get('mutation'):
             self.database.add()
+            response['mutation_result'] = {
+                'mutation_id': request['mutation']['id'],
+            }
 
         return response

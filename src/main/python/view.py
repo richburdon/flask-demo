@@ -20,6 +20,7 @@ class ViewModule(Module):
         self.add_view(HomeView)
         self.add_view(DemoView)
         self.add_view(DataView)
+        self.add_view(ActionView)
 
 
 @singleton
@@ -55,6 +56,7 @@ class DataView(flask.views.MethodView):
     def post(self):
         try:
             request = flask.request.json
+            # TODO(burdon): Dispatch to query/mutation request processor (based on permissions).
             response = self.handler.process_request(request)
             return flask.json.jsonify(response)
 
@@ -62,3 +64,16 @@ class DataView(flask.views.MethodView):
             import logging
             logging.exception('Request Error')
             return flask.abort(500)
+
+
+@singleton
+@inject(database=Database)
+class ActionView(flask.views.MethodView):
+
+    ROUTE = '/action'
+    NAME = 'Action API'
+
+    # TODO(burdon): Change to proto.
+    def post(self):
+        self.database.clear()
+        return flask.json.jsonify({})

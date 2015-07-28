@@ -49,8 +49,13 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     self.fireListeners();
   };
 
+  //
   // TestGraphModel
+  //
 
+  /**
+   *
+   */
   NS.TestGraphModel = $.nx.extend(NS.GraphModel, function() {
     var self = NS.TestGraphModel.super(this);
   });
@@ -84,8 +89,13 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     self.fireListeners();
   };
 
+  //
   // DatabaseGraphModel
+  //
 
+  /**
+   *
+   */
   NS.DatabaseGraphModel = $.nx.extend(NS.GraphModel, function(database) {
     var self = NS.DatabaseGraphModel.super(this);
     self._database = database;
@@ -118,10 +128,11 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     self.fireListeners();
   };
 
+  // TODO(burdon): Part of model?
   NS.DatabaseGraphModel.prototype.clear = function() {
     var self = this;
-    // TODO(burdon): Action (i.e., not mutation).
-    self._database.createMutation().commit(function() {
+    // TODO(burdon): Trigger action.
+    $.post('/action', function() {
       self.load();
     });
   };
@@ -134,7 +145,6 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   NS.DatabaseGraphModel.prototype.add = function() {
     var self = this;
     self._database.createMutation().commit(function() {
-      console.log('!!!!');
       self.load();
     });
   };
