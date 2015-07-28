@@ -24,9 +24,9 @@ h1, h2, h3 {
   stroke-width: 1.5px;
 }
 
-.app-graph .node.g-1 { fill: #1f77b4; }
-.app-graph .node.g-2 { fill: #ff7f0e; }
-.app-graph .node.g-3 { fill: #2ca02c; }
+.app-graph .node.type-1 { fill: #1f77b4; }
+.app-graph .node.type-2 { fill: #ff7f0e; }
+.app-graph .node.type-3 { fill: #2ca02c; }
 
 .app-graph .link {
   stroke: #999;
@@ -37,12 +37,15 @@ h1, h2, h3 {
  *
  */
 
-.app-debug:after {
+.app-error:after {
   position: absolute;
-  right: 2px;
-  bottom: 2px;
-  content: 'DEV';
-  font-size: x-small;
+  right: 0;
+  bottom: 0;
+  content: 'ERROR';
+  font-size: small;
+  padding: 2px;
+  color: white;
+  background-color: darkred;
 }
 
 .app-info {

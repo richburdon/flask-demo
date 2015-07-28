@@ -11,7 +11,7 @@ define(
     'nx/util/config',
     'view/home/view',
     'view/test/view'
-  ], function(io) {
+  ], function() {
 
     // TODO(burdon): Create options server page to configure app.
     // TODO(burdon): Create network abstraction (Proxy) for Request/Response and inject this (wraps all ajax/socket IO)
@@ -25,6 +25,16 @@ define(
         'demo.view.home',
         'demo.view.test'
       ])
+
+      // Error handling.
+      .factory('$exceptionHandler', function() {
+        return function(exception, cause) {
+          // TODO(burdon): Wrap with object.
+          $('#app-debug').addClass('app-error');
+          exception.message += ' (caused by "' + cause + '")';
+          throw exception;
+        };
+      })
 
       // Config
       .factory('Config', [function() {

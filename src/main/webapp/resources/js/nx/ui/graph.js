@@ -30,7 +30,8 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   // https://github.com/allenhwkim/angularjs-google-maps/blob/master/directives/map.js
 
   // TODO(burdon): Base class for model.
-  NS.GraphModel = $.nx.extend(nx.util.callback.Listeners, function() {
+  // TODO(burdon): Use database.
+  NS.GraphModel = $.nx.extend(nx.util.callback.Listeners, function(database) {
     var self = NS.GraphModel.super(this);
     this.graph = {
       nodes: [],
@@ -68,7 +69,7 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     var source = self.graph.nodes[Math.floor(Math.random() * self.graph.nodes.length)];
     var target = {
       'id': 'node' + new Date().getTime(),
-      'group': Math.floor(Math.random() * 3) + 1
+      'type': Math.floor(Math.random() * 3) + 1
     };
 
     self.graph.nodes.push(target);
@@ -87,6 +88,22 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   NS.DatabaseGraphModel = $.nx.extend(NS.GraphModel, function(database) {
     var self = NS.DatabaseGraphModel.super(this);
   });
+
+  NS.DatabaseGraphModel.prototype.clear = function() {
+    var self = this;
+    $.ajax({
+      type: 'POST',
+      url: '/data',
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      data: JSON.stringify({
+        clear: true
+      }),
+      success: function() {
+        self.load(); // TODO(burdon): !!!
+      }
+    });
+  };
 
   NS.DatabaseGraphModel.prototype.load = function() {
     var self = this;
@@ -234,7 +251,7 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     this.node
       .enter()
       .append('circle')
-        .attr('class', function(d) { return 'node g-' + d.group; })
+        .attr('class', function(d) { return 'node type-' + d.type; })
         .attr('r', 16);
     this.node
       .exit()

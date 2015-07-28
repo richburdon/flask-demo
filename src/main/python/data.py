@@ -20,29 +20,34 @@ class Database(object):
     http://py2neo.org/2.0
     """
 
+    # TODO(burdon): Logging (http).
+
+    TYPE = 'Item'
+    REL = 'linked'
+
     def __init__(self):
         self.graph = Graph('http://' + self.config['service.neo'] + '/db/data/')
 
     def __str__(self):
-        items = self.graph.cypher.execute('MATCH (item:Item) RETURN item')
+        items = self.graph.cypher.execute('MATCH (item:{type}) RETURN item'.format(type=Database.TYPE))
         return 'Graph({:d})'.format(len(items))
 
     def clear(self):
         self.graph.cypher.execute('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r')
 
     def select(self):
-        relationships = self.graph.cypher.execute('MATCH ()-[r:linked]->() RETURN r')
+        relationships = self.graph.cypher.execute('MATCH ()-[r:{rel}]->() RETURN r'.format(rel=Database.REL))
         return relationships
 
-    # TODO(burdon): Optionally specify source node ID.
+    # TODO(burdon): Specify source node ID.
     def add(self):
-        items = self.graph.cypher.execute('MATCH (item:Item) RETURN item')
+        items = self.graph.cypher.execute('MATCH (item:{type}) RETURN item'.format(type=Database.TYPE))
         name = 'Item-{:d}'.format(len(items) + 1)
-        target = Node('Item', name=name)
+        target = Node(Database.TYPE, name=name, type=random.randint(1, 3))
 
         if items:
             source = random.sample(items.to_subgraph().nodes, 1)[0]
-            relationship = Relationship(source, 'linked', target)
+            relationship = Relationship(source, Database.REL, target)
             self.graph.create(relationship)
         else:
             self.graph.create(target)
@@ -51,6 +56,9 @@ class Database(object):
 @singleton
 @inject(database=Database)
 class RequestHandler(object):
+    """
+    Handles all inbound data requests (queries and mutations).
+    """
 
     def process_request(self, request):
         response = {
@@ -59,11 +67,10 @@ class RequestHandler(object):
         }
 
         if request.get('query'):
-            # TODO(burdon): Select relationships also.
             records = self.database.select()
             graph = records.to_subgraph()
-            LOG.info(graph.nodes)
-            LOG.info(graph.relationships)
+            # LOG.info(graph.nodes)
+            # LOG.info(graph.relationships)
 
             node_map = {}
             for node in graph.nodes:
@@ -72,7 +79,8 @@ class RequestHandler(object):
                     node_map[node.ref] = node
                     response['nodes'].append({
                         'id': node.ref,
-                        'name': node['name']
+                        'name': node['name'],
+                        'type': node['type']
                     })
 
             for relationship in graph.relationships:
@@ -80,8 +88,9 @@ class RequestHandler(object):
                     'source': relationship.start_node.ref,
                     'target': relationship.end_node.ref
                 })
+        elif request.get('clear'):
+            self.database.clear()
         else:
-            logging.info('XXXXXXXXXXXXX')
             self.database.add()
 
         return response
