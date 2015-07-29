@@ -53,11 +53,8 @@ define(
       // App info.
       .factory('AppInfo', ['Config', 'Proxy', 'GraphModel', function(config, proxy, model) {
         var app = config.get('app');
-        app.proxy = proxy.toString(); // TODO(burdon): Pass object.
-        model.addListener(function() {
-          app.nodes = model._graph.nodes.length; // TODO(burdon): Pass model object.
-        });
-
+        app.proxy = proxy;
+        app.model = model; // TODO(burdon): How to trigger update? $digest?
         return app;
       }])
 

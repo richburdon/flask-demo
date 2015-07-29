@@ -18,6 +18,7 @@ class ViewModule(Module):
 
     def configure(self, binder):
         self.add_view(HomeView)
+        self.add_view(OptionsView)
         self.add_view(DemoView)
         self.add_view(DataView)
         self.add_view(ActionView)
@@ -32,6 +33,16 @@ class HomeView(flask.views.MethodView):
 
     def get(self):
         return flask.render_template('home.html', config=self.config, db=self.db)
+
+
+@singleton
+class OptionsView(flask.views.MethodView):
+
+    ROUTE = '/options'
+    NAME = 'Options'
+
+    def get(self):
+        return flask.render_template('options.html')
 
 
 @singleton

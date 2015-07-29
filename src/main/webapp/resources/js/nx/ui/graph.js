@@ -40,6 +40,11 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
     };
   });
 
+  NS.GraphModel.prototype.toString = function() {
+    var self = this;
+    return 'GraphModel(' + self._graph.nodes.length + ')'; // TODO(burdon): Use format.
+  };
+
   NS.GraphModel.prototype.clear = function() {
     var self = this;
     self._graph = {

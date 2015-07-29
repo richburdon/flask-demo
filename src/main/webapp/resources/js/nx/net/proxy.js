@@ -42,7 +42,7 @@ define(['socketio', 'nx/util/core'], function() {
   });
 
   NS.AjaxProxy.prototype.toString = function() {
-    return 'AjaxProxy';
+    return 'AjaxProxy()';
   };
 
   NS.AjaxProxy.prototype.send = function(data) {
@@ -90,7 +90,7 @@ define(['socketio', 'nx/util/core'], function() {
   NS.WebSocketsProxy.EVENT_TYPE = 'Message';
 
   NS.WebSocketsProxy.prototype.toString = function() {
-    return 'WebSocketsProxy';
+    return 'WebSocketsProxy()';
   };
 
   NS.WebSocketsProxy.prototype.send = function(data) {
