@@ -5,10 +5,13 @@
 import flask
 import logging
 from flask.ext.socketio import SocketIO
-from injector import Module, inject
+from injector import Injector, Module, inject
+
+from data import RequestHandler
+
 
 # Main instance.
-# https://flask-socketio.readthedocs.org/en/latest/
+# https://flask-socketio.readthedocs.org
 # TODO(burdon): Investigate pubnub/pusher API (to enable scaling at later date).
 # TODO(burdon): Configure nginx for sticky sessions.
 socketio = SocketIO()
@@ -17,38 +20,62 @@ NS = '/nx'
 EVENT_NAME = 'Message'
 
 
+# Adapter necessary for global socket bindings.
+# TODO(burdon): https://github.com/miguelgrinberg/Flask-SocketIO/issues/129
+class Adapter(object):
+
+    instance = None
+
+    def __init__(self, injector):
+        self.injector = injector
+
+    def on_error(self, error):
+        logging.error(error)
+
+    def on_connect(self):
+        logging.info('Connected')
+
+    def on_disconnect(self):
+        logging.info('Disconnected')
+
+    def on_message(self, request):
+        handler = self.injector.get(RequestHandler)
+        response = handler.process_request(request)
+        socketio.emit(EVENT_NAME, response, namespace=NS, callback=lambda: logging.info('ACK'))
+
+
 @socketio.on_error_default
-def default_error_handler(e):
-    logging.info('ERROR', e)
+def default_error_handler(error):
+    Adapter.instance.on_error(error)
 
 
 @socketio.on('connect', namespace=NS)
 def test_connect():
-    logging.info('Connected')
+    Adapter.instance.on_connect()
 
 
 @socketio.on('disconnect', namespace=NS)
 def test_disconnect():
-    logging.info('Disconnected')
+    Adapter.instance.on_disconnect()
 
 
-# TODO(burdon): Inject request handler?
 @socketio.on(EVENT_NAME, namespace=NS)
-def handle_message(data):
-    logging.info('Received: ' + str(data))
-    socketio.emit(EVENT_NAME, {'data': 'TEST'}, namespace=NS, callback=lambda: logging.info('ACK'))
+def handle_message(message):
+    Adapter.instance.on_message(message)
 
 
-# Websockets
-# https://flask-socketio.readthedocs.org
-@inject(app=flask.Flask)
+@inject(app=flask.Flask, injector=Injector)
 class SocketModule(Module):
 
     def __init__(self):
+        # TODO(burdon): Move to action.
         self.app.add_url_rule('/ping', 'ping', self.ping)
+
+        # NOTE: Injector cannot be used during module set-up (otherwise context error).
+        Adapter.instance = Adapter(self.injector)
+
         socketio.init_app(self.app)
 
-    # TODO(burdon): Move DataView here; impl. multiplexing on event type (normalize socket/ajax comms).
     # Respond asynchronously to connected client.
     @staticmethod
     def ping():

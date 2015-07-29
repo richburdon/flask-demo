@@ -5,6 +5,7 @@
 define(['socketio', 'nx/util/core'], function() {
   var NS = $.nx.namespace('nx.net.proxy');
 
+  // TODO(burdon): Rename Channel?
   // TODO(burdon): Enable routing by event/namespace/room? (e.g., database, etc.) Part of message payload.
   // TODO(burdon): Error handling.
   // TODO(burdon): Manage reconnection.
@@ -40,6 +41,10 @@ define(['socketio', 'nx/util/core'], function() {
     self._url = $.nx.assert(url);
   });
 
+  NS.AjaxProxy.prototype.toString = function() {
+    return 'AjaxProxy';
+  };
+
   NS.AjaxProxy.prototype.send = function(data) {
     var self = this;
     console.log('Sending: %o', data);
@@ -58,8 +63,10 @@ define(['socketio', 'nx/util/core'], function() {
 
   /**
    * WebSocket proxy.
+   * https://github.com/socketio/socket.io-client
    */
   NS.WebSocketsProxy = $.nx.extend(NS.Proxy, function(url) {
+    console.log('Connecting...', url);
     var self = NS.WebSocketsProxy.super(this);
 
     // TODO(burdon): Provision unique ID from server to create room?
@@ -82,9 +89,13 @@ define(['socketio', 'nx/util/core'], function() {
 
   NS.WebSocketsProxy.EVENT_TYPE = 'Message';
 
+  NS.WebSocketsProxy.prototype.toString = function() {
+    return 'WebSocketsProxy';
+  };
+
   NS.WebSocketsProxy.prototype.send = function(data) {
     var self = this;
-    console.log('Sending: ' + JSON.stringify(data));
+    console.log('Sending: %o', data);
     self._socket.emit(NS.WebSocketsProxy.EVENT_TYPE, data);
   };
 

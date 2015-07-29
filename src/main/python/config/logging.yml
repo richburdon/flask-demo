@@ -16,7 +16,7 @@ disable_existing_loggers: True
 
 formatters:
   default:
-    format: '%(asctime)s [%(name)10.10s|%(filename)-16.16s][%(levelname).4s] %(message)s'
+    format: '%(asctime)s [%(name)10.10s|%(filename)-16.16s:%(lineno)4d][%(levelname).4s] %(message)s'
 
 handlers:
   console:

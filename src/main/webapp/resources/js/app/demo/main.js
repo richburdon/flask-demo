@@ -14,10 +14,6 @@ define(
   ], function() {
 
     // TODO(burdon): Create options server page to configure app.
-    // TODO(burdon): Create network abstraction (Proxy) for Request/Response and inject this (wraps all ajax/socket IO)
-    // https://github.com/socketio/socket.io-client
-    console.log('Configuring websockest...');
-
     // TODO(burdon): IOLogger panel/directive.
 
     // Define the main app.
@@ -50,15 +46,16 @@ define(
 
       // Network proxy.
       .factory('Proxy', ['Config', function(config) {
-        return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
-//      return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
+//      return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
+        return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
       }])
 
       // App info.
-      .factory('AppInfo', ['Config', 'GraphModel', function(config, model) {
+      .factory('AppInfo', ['Config', 'Proxy', 'GraphModel', function(config, proxy, model) {
         var app = config.get('app');
+        app.proxy = proxy.toString(); // TODO(burdon): Pass object.
         model.addListener(function() {
-          app.nodes = model._graph.nodes.length;
+          app.nodes = model._graph.nodes.length; // TODO(burdon): Pass model object.
         });
 
         return app;
