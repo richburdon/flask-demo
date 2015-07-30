@@ -57,12 +57,12 @@ class DevConfig(Config):
         # Assume neo is running in a local VM.
         host = os.environ.get('DOCKER_HOST')
         if host:
-            self.config.service.neo = re.match(r'(.*)://(.*):(.*)', host).group(1)
+            self.config.service.neo4j = re.match(r'(.*)://(.*):(.*)', host).group(1)
         else:
             # NOTE: When running from PyCharm, the DOCKER environment variable is not set.
             p = subprocess.Popen('/usr/local/bin/boot2docker ip', shell=True, stdout=subprocess.PIPE)
             neo_url = p.stdout.read().strip()
-            self.config.service.neo = neo_url + ':7474'
+            self.config.service.neo4j = neo_url + ':7474'
 
 
 @singleton
@@ -70,7 +70,7 @@ class ProdConfig(Config):
 
     def init(self):
         # https://docs.docker.com/userguide/dockerlinks
-        self.config.service.neo = os.environ['NEO_PORT_7474_TCP_ADDR'] + ':7474'
+        self.config.service.neo4j = os.environ['NEO_PORT_7474_TCP_ADDR'] + ':7474'
 
 
 @inject(app=flask.Flask)

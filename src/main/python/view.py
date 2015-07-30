@@ -18,6 +18,7 @@ class ViewModule(Module):
 
     def configure(self, binder):
         self.add_view(HomeView)
+        self.add_view(DebugView)
         self.add_view(OptionsView)
         self.add_view(DemoView)
         self.add_view(DataView)
@@ -37,13 +38,35 @@ class HomeView(flask.views.MethodView):
 
 
 @singleton
+@inject(config=Config, db=Database)
+class DebugView(flask.views.MethodView):
+
+    ROUTE = '/debug'
+    NAME = 'Debug'
+
+    def get(self):
+        print str(self.config['client.app.name'])
+        return flask.render_template('debug.html', config=self.config)
+
+    def post(self):
+        request = flask.request.json
+        result = self.db.graph.cypher.execute(request['query'])
+        count = len(result)
+        response = {
+            'count': count
+        }
+        return flask.json.jsonify(response)
+
+
+@singleton
+@inject(config=Config, db=Database)
 class OptionsView(flask.views.MethodView):
 
     ROUTE = '/options'
     NAME = 'Options'
 
     def get(self):
-        return flask.render_template('options.html')
+        return flask.render_template('options.html', config=self.config)
 
 
 @singleton

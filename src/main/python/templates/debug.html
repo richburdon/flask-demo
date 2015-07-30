@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>{{ config.client.app.name }}</title>
+    <script type="text/javascript" src="/res/lib/requirejs/require.js"></script>
+    <script type="text/javascript">
+      require.config({
+        baseUrl: '/res/js',
+        paths: {
+          'jquery': '../lib/jquery/dist/jquery'
+        }
+      });
+
+      var DEF_QUERY = 'MATCH (item:Item) RETURN item';
+
+      require(['jquery'], function() {
+        var queryText = $('input[name=query]');
+        queryText.val(DEF_QUERY).focus();
+        $('form').submit(function(ev) {
+          ev.preventDefault();
+          $.ajax({
+            type: 'POST',
+            url: '/debug',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+              query: queryText.val()
+            }),
+            success: function(data, status, xhr) {
+              $('#app-result').text(JSON.stringify(data));
+              $('input[name=query]').focus();
+            }
+          });
+        })
+      });
+    </script>
+{% endblock %}
+
+{% block body %}
+
+  <!-- TODO(burdon): Bootstrap styling. -->
+  <div class="app-container">
+    <div class="app-center">
+      <h1>Debug</h1>
+      <section>
+        <form>
+        <h2>Neo4J</h2>
+        <table>
+          <tr>
+            <td>Server</td>
+            <td>{{ config.service.neo4j }}</td>
+          </tr>
+          <tr>
+            <td>Query</td>
+            <td>
+              <input type="text" name="query" size="80"/>
+              <input type="submit"/>
+            </td>
+          </tr>
+          <tr>
+            <td>Result</td>
+            <td><div id="app-result"></div></td>
+          </tr>
+        </table>
+      </form>
+      </section>
+    </div>
+  </div>
+
+{% endblock %}

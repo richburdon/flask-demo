@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 
 {% block head %}
-    <title>Test</title>
+    <title>{{ config.client.app.name }}</title>
+    <script type="application/javascript">
+      window['__APP_CONFIG__'] = {{ config|tojson|safe }};
+    </script>
     <script type="text/javascript" src="/res/lib/requirejs/require.js" data-main="/res/js/app/demo/config"></script>
-{% include 'config.html' %}
 {% endblock %}
 
 {% block body %}

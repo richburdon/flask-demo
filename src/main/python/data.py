@@ -26,7 +26,7 @@ class Database(object):
     REL = 'linked'
 
     def __init__(self):
-        self.graph = Graph('http://' + self.config['service.neo'] + '/db/data/')
+        self.graph = Graph('http://' + self.config['service.neo4j'] + '/db/data/')
 
     def __str__(self):
         items = self.graph.cypher.execute('MATCH (item:{type}) RETURN item'.format(type=Database.TYPE))
