@@ -13,12 +13,14 @@ import yaml
 from flask_environments import Environments
 from flask_injector import FlaskInjector, Injector
 from injector import inject
+from jinja2 import Environment
 
 from config import ConfigModule
 from websocket import SocketModule, SocketHandler
 from view import ViewModule
 
 
+# TODO(burdon): Inherit the Flask app; i.e., Main(Flask)
 class Main(object):
     """
     Main server.
@@ -41,6 +43,15 @@ class Main(object):
         # Config logging.
         # https://docs.python.org/2/howto/logging.html
         logging.config.dictConfig(yaml.load(open(self.app.config['LOG_CONFIG'])))
+
+        # Jinja2 templates.
+        # http://jinja.pocoo.org/docs/dev/api
+        # http://flask.pocoo.org/docs/0.10/api/#flask.Flask.jinja_options
+        self.app.jinja_options = flask.Flask.jinja_options.copy()
+        self.app.jinja_options.update(dict(
+            trim_blocks=True,
+            lstrip_blocks=True
+        ))
 
         # TODO(burdon): Config caching.
         # http://stackoverflow.com/questions/16741834/how-to-add-stdout-and-stderr-to-logger-file-in-flask

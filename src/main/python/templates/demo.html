@@ -1,26 +1,20 @@
 {% extends "layout.html" %}
 
 {% block head %}
-
-  <title>Test</title>
-
-  <script type="text/javascript" src="/res/lib/requirejs/require.js" data-main="/res/js/app/demo/config"></script>
-
-  {% include 'config.html' %}
-
+    <title>Test</title>
+    <script type="text/javascript" src="/res/lib/requirejs/require.js" data-main="/res/js/app/demo/config"></script>
+{% include 'config.html' %}
 {% endblock %}
 
 {% block body %}
-
-  <!--
+  {#
     Mixing templates (Jinja2/angular)
     http://lorenhoward.com/blog/how-to-get-angular-to-work-with-jinja/
     http://flask-triangle.readthedocs.org/en/develop/tutorial/part1.html
-    -->
+  #}
   {% raw %}
-  <div id="app" ng-strict-di>
-    <section ui-view></section>
-  </div>
+    <div id="app" ng-strict-di>
+      <section ui-view></section>
+    </div>
   {% endraw %}
-
 {% endblock %}
