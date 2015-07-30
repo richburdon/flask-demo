@@ -150,7 +150,7 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   NS.DatabaseGraphModel.prototype.add = function() {
     var self = this;
     self._database.createMutation().commit(function() {
-      self.load();
+      console.log('Added')
     });
   };
 

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block head %}
-    <title>{{ config.client.app.name }}</title>
+    <title>{{ config.app.name }}</title>
     <script type="application/javascript">
       window['__APP_CONFIG__'] = {{ config|tojson|safe }};
     </script>

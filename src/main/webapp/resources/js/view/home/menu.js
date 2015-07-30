@@ -28,7 +28,7 @@ define(['angular'], function(angular) {
         robot.stop();
       };
 
-      $scope.ping = function() {
+      $scope.notify = function() {
         $.get('/notify');
       };
 

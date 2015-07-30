@@ -107,6 +107,8 @@ class RequestHandler(object):
             response['mutation_result'] = {
                 'mutation_id': request['mutation']['id'],
             }
+            # TODO(burdon): Add query IDs to invalidate.
+            response['notify'] = {}
 
             self.notifier.notify()
 

@@ -110,8 +110,13 @@ class ActionView(flask.views.MethodView):
 
     # TODO(burdon): Change to proto.
     def post(self):
+        # TODO(burdon): Logging hidden.
+        import logging
+        logging.info('ACTION')
         self.database.clear()
-        return flask.json.jsonify({})
+        return flask.json.jsonify({
+            'notify': {}
+        })
 
 
 @singleton
@@ -122,5 +127,7 @@ class NotifierView(flask.views.MethodView):
     NAME = 'Notify WebSocket clients'
 
     def get(self):
-        self.notifier.notify()
+        self.notifier.notify({
+            'notify': {}
+        })
         return flask.json.jsonify({})

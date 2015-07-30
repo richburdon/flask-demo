@@ -24,7 +24,7 @@ define(['nx/util/core'], function() {
         $.each(self._queryMap, function(id, query) {
           query._callback(message['query_result']);
         });
-        delete self._queryMap[message['query_result']['query_id']];
+        // delete self._queryMap[message['query_result']['query_id']];
       }
 
       // Handle mutation acks.
@@ -32,6 +32,15 @@ define(['nx/util/core'], function() {
         var mutation = self._mutationMap[message['mutation_result']['mutation_id']];
         delete self._queryMap[message['mutation_result']['mutation_id']];
         mutation && mutation._callback && mutation._callback();
+      }
+
+      // Notify.
+      if (message['notify']) {
+        // Re-issue all queries.
+        // TODO(burdon): Check individual query and global timestamps.
+        $.each(self._queryMap, function(id, query) {
+          query.execute();
+        });
       }
     });
   };
