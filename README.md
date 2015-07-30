@@ -55,3 +55,9 @@ curl $(boot2docker ip):$(docker ps -n=1 | sed -n -e 's/^.*:\([0-9]*\).*$/\1/p')
 #5). Push image to the docker repo (to deploy to the cloud):
 
 docker push richburdon/flask-demo
+
+
+#6). Testing
+
+./tools/python/bin/nosetests
+

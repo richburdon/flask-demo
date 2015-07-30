@@ -1,10 +1,19 @@
+# Testing
+mock
+nose
+nose-exclude
+
+# Standard
 easydict
+httpretty
+pyyaml
 requests
 
+# Flask
 Flask
 Flask-Injector
 flask-environments
 flask-socketio
 
-pyyaml
+# Third-party
 py2neo
