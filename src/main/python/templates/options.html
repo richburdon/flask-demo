@@ -9,42 +9,45 @@
 {% block body %}
 
   <!-- TODO(burdon): Bootstrap styling. -->
-  <h1>Options</h1>
+  <div class="app-container">
+    <div class="app-center">
+      <h1>Options</h1>
 
-  <form action="/demo">
-    <table>
-      <tr>
-        <td>Logging</td>
-        <td>
-          <select name="log">
-            <option value="INFO" selected>INFO</option>
-            <option value="DEBUG">DEBUG</option>
-            <option value="WARNING">WARNING</option>
-            <option value="ERROR">ERROR</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Proxy</td>
-        <td>
-          <div>
-            <label><input type="radio" name="proxy" value="ajax" checked="checked"/>Ajax</label>
-            <label><input type="radio" name="proxy" value="websockets"/>WebSockets</label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Database</td>
-        <td>
-          <div>
-            <label><input type="radio" name="db" value="client" checked="checked"/>Client</label>
-            <label><input type="radio" name="db" value="remote"/>Remote</label>
-            <label><input type="radio" name="db" value="hybrid"/>Hybrid</label>
-          </div>
-        </td>
-      </tr>
-    </table>
-    <input type="submit"/>
-  </form>
+      <form action="/demo">
+        <table>
+          <tr>
+            <td>Logging</td>
+            <td>
+              <select name="log">
+                <option value="INFO" selected>INFO</option>
+                <option value="DEBUG">DEBUG</option>
+                <option value="WARNING">WARNING</option>
+                <option value="ERROR">ERROR</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Transport</td>
+            <td>
+              <div>
+                <label><input type="radio" name="transport" value="ajax" checked="checked"/>Ajax</label>
+                <label><input type="radio" name="transport" value="websockets"/>WebSockets</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Database</td>
+            <td>
+              <div>
+                <label><input type="radio" name="db" value="test"/>Test</label>
+                <label><input type="radio" name="db" value="remote" checked="checked"/>Remote</label>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <input type="submit"/>
+      </form>
+    </div>
+  </div>
 
 {% endblock %}

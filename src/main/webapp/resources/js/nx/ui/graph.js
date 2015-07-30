@@ -136,7 +136,7 @@ define(['angular', 'd3', 'nx/util/callback'], function(angular) {
   // TODO(burdon): Part of model?
   NS.DatabaseGraphModel.prototype.clear = function() {
     var self = this;
-    // TODO(burdon): Trigger action.
+    // TODO(burdon): Trigger action via proxy.
     $.post('/action', function() {
       self.load();
     });

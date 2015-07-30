@@ -1,10 +1,10 @@
 {
   "nodes":[
-    {"id":"node-1", "name":"A", "group":1},
-    {"id":"node-2", "name":"B", "group":2},
-    {"id":"node-3", "name":"C", "group":2},
-    {"id":"node-4", "name":"D", "group":3},
-    {"id":"node-5", "name":"E", "group":3}
+    {"id":"node-1", "name":"A", "type":1},
+    {"id":"node-2", "name":"B", "type":2},
+    {"id":"node-3", "name":"C", "type":2},
+    {"id":"node-4", "name":"D", "type":3},
+    {"id":"node-5", "name":"E", "type":3}
   ],
 
   "links":[

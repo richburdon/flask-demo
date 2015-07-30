@@ -46,10 +46,14 @@ define(
 
       // Network proxy.
       .factory('Proxy', ['Config', function(config) {
-        if (false) // TODO(burdon): Config.
-          return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
-        else
-          return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
+        switch ($.nx.queryParam('transport')) {
+          case 'ajax':
+            return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
+
+          default:
+          case 'websockets':
+            return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
+        }
       }])
 
       // App info.
@@ -62,9 +66,17 @@ define(
 
       // Graph Model.
       .factory('GraphModel', ['Database', function(database) {
-        // TODO(burdon): Runtime param.
-//      var model = new nx.ui.graph.TestGraphModel(database);
-        var model = new nx.ui.graph.DatabaseGraphModel(database);
+        // TODO(burdon): Should configure database not model.
+        var model;
+        switch ($.nx.queryParam('db')) {
+          case 'test':
+            model = new nx.ui.graph.TestGraphModel(database);
+            break;
+
+          default:
+            model = new nx.ui.graph.DatabaseGraphModel(database);
+            break;
+        }
         model.load();
         return model;
       }])
