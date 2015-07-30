@@ -6,7 +6,7 @@ import flask
 import flask.views
 from injector import Module, inject, singleton
 from config import Config
-from data import Database, RequestHandler
+from data import Database, RequestHandler, Notifier
 
 
 @singleton
@@ -22,6 +22,7 @@ class ViewModule(Module):
         self.add_view(DemoView)
         self.add_view(DataView)
         self.add_view(ActionView)
+        self.add_view(NotifierView)
 
 
 @singleton
@@ -87,4 +88,16 @@ class ActionView(flask.views.MethodView):
     # TODO(burdon): Change to proto.
     def post(self):
         self.database.clear()
+        return flask.json.jsonify({})
+
+
+@singleton
+@inject(notifier=Notifier)
+class NotifierView(flask.views.MethodView):
+
+    ROUTE = '/notify'
+    NAME = 'Notify WebSocket clients'
+
+    def get(self):
+        self.notifier.notify()
         return flask.json.jsonify({})

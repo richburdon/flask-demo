@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c12aa93a-ab52-42d0-94e7-3d2e70bf1147" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/config.py" afterPath="$PROJECT_DIR$/src/main/python/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/config/config.yml" afterPath="$PROJECT_DIR$/src/main/python/config/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/data.py" afterPath="$PROJECT_DIR$/src/main/python/data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/app/demo/main.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/app/demo/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/main.py" afterPath="$PROJECT_DIR$/src/main/python/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/templates/options.html" afterPath="$PROJECT_DIR$/src/main/python/templates/options.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/nx/net/proxy.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/nx/net/proxy.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/view/home/menu.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/view/home/menu.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/view.py" afterPath="$PROJECT_DIR$/src/main/python/view.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/python/websocket.py" afterPath="$PROJECT_DIR$/src/main/python/websocket.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="flask-demo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,7 +18,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/flask-demo$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1438218574689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/main/python" />
+    <SUITE FILE_PATH="coverage/flask-demo$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1438219927974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/main/python" />
     <SUITE FILE_PATH="coverage/flask-demo$memo.coverage" NAME="memo Coverage Results" MODIFIED="1437941867786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../memo" />
     <SUITE FILE_PATH="coverage/flask-demo$Demo.coverage" NAME="Demo Coverage Results" MODIFIED="1437590880371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/main/python" />
   </component>
@@ -38,10 +31,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51086956">
+            <state vertical-scroll-proportion="0.0">
               <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding />
             </state>
@@ -62,17 +55,27 @@
         <entry file="file://$PROJECT_DIR$/src/main/python/view.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="55" column="86" selection-start-line="55" selection-start-column="69" selection-end-line="55" selection-end-column="86" />
+              <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="websocket.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="websocket.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/python/websocket.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.8004484">
+              <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/nx/data/database.js">
+          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+              <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -126,17 +129,17 @@
         <option value="$PROJECT_DIR$/src/main/python/config/logging.yml" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/nx/ui/graph.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/nx/ui/table.html" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/js/view/home/menu.js" />
         <option value="$PROJECT_DIR$/src/main/python/templates/options.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/nx/net/proxy.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/app/demo/config.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/app/demo/main.js" />
         <option value="$PROJECT_DIR$/src/main/python/data.py" />
-        <option value="$PROJECT_DIR$/src/main/python/view.py" />
         <option value="$PROJECT_DIR$/src/main/python/config.py" />
-        <option value="$PROJECT_DIR$/src/main/python/websocket.py" />
         <option value="$PROJECT_DIR$/src/main/python/config/config.yml" />
         <option value="$PROJECT_DIR$/src/main/python/main.py" />
+        <option value="$PROJECT_DIR$/src/main/python/view.py" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/js/view/home/menu.js" />
+        <option value="$PROJECT_DIR$/src/main/python/websocket.py" />
       </list>
     </option>
   </component>
@@ -419,7 +422,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="js.buildTools.grunt.node_interpreter" value="/usr/local/bin/node" />
     <property name="js.buildTools.grunt.grunt-cli.package" value="/usr/local/lib/node_modules/grunt-cli" />
-    <property name="SearchEverywhereHistoryKey" value="main&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/app/demo/main.js&#10;proxy&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/nx/net/proxy.js&#10;pro&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/nx/net/proxy.js&#10;requi&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/requirements.txt&#10;table&#9;FILE&#9;file:///Users/burdon/projects/src/experimental/flask-demo/src/main/webapp/resources/js/ui/table.js" />
+    <property name="SearchEverywhereHistoryKey" value="database.&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/nx/data/database.js&#10;menu.j&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/view/home/menu.js&#10;main&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/app/demo/main.js&#10;proxy&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/nx/net/proxy.js&#10;pro&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/src/main/webapp/resources/js/nx/net/proxy.js&#10;requi&#9;FILE&#9;file:///Users/burdon/projects/src/richburdon/flask-demo/requirements.txt&#10;table&#9;FILE&#9;file:///Users/burdon/projects/src/experimental/flask-demo/src/main/webapp/resources/js/ui/table.js" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -741,7 +744,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24318507" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29299363" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26302415" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39771283" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -984,14 +987,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/nx/data/database.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6188119">
-          <caret line="67" column="13" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tools/python/lib/python2.7/site-packages/flask_socketio/test_client.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.6340819">
@@ -1027,14 +1022,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="43" column="20" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/view/home/menu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1103,14 +1090,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tools/python/lib/python2.7/site-packages/flask_socketio/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tools/python/lib/python2.7/site-packages/flask_injector.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.034764826">
@@ -1127,14 +1106,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tools/python/lib/python2.7/site-packages/injector.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09477756">
-          <caret line="518" column="0" selection-start-line="518" selection-start-column="0" selection-end-line="518" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3119584">
@@ -1143,26 +1114,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/python/view.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="86" selection-start-line="55" selection-start-column="69" selection-end-line="55" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/python/websocket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1177,8 +1132,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51086956">
+        <state vertical-scroll-proportion="0.0">
           <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/view/home/menu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38043478">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/python/view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/python/lib/python2.7/site-packages/injector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33183858">
+          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/nx/data/database.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/python/lib/python2.7/site-packages/flask_socketio/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.37443945">
+          <caret line="273" column="8" selection-start-line="273" selection-start-column="8" selection-end-line="273" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/python/websocket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8004484">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -29,7 +29,7 @@ define(['angular'], function(angular) {
       };
 
       $scope.ping = function() {
-        $.get('/ping');
+        $.get('/notify');
       };
 
       // Test robot

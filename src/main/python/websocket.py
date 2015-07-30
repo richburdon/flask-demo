@@ -50,10 +50,11 @@ class SocketHandler(object):
 @inject(socketio=SocketIO)
 class SocketNotifier(Notifier):
 
-    def notify(self, message=None):
+    def notify(self, message={}):
         # TODO(burdon): Pass list of invalidated query/versions.
-        logging.info('Notify')
-        self.socketio.emit(EVENT, data={}, broadcast=True)
+        logging.info('Notify...')
+        # self.socketio.emit(EVENT, message, broadcast=True)  # TODO(burdon): Not working?
+        self.socketio.emit(EVENT, message, namespace=NS)  # NOTE: Does broadcast.
 
 
 @inject(app=flask.Flask)
@@ -62,19 +63,3 @@ class SocketModule(Module):
     def configure(self, binder):
         binder.bind(SocketIO, SocketIO(self.app))
         binder.bind(Notifier, SocketNotifier)
-
-
-    #     # TODO(burdon): Move to action.
-    #     self.app.add_url_rule('/ping', 'ping', self.ping)
-    #
-    #
-    # class Pinger(object):
-    #     pass
-    #
-    # # Respond asynchronously to connected client.
-    # @inject(socketio=SocketIO)
-    # @provides()
-    # def ping():
-    #     # Trigger async response.
-    #     socketio.emit(EVENT_NAME, {'data': 'PONG'}, namespace=NS)
-    #     return flask.json.jsonify({})
