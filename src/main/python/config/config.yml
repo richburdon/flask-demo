@@ -11,6 +11,8 @@ COMMON: &common
   HOST: 0.0.0.0     # NOTE: Important for nginx config.
   PORT: 5000
 
+  LOG_CONFIG: config/logging.yml
+
 #
 # Dev: meaning local workstation (not on Docker)
 #

@@ -46,8 +46,10 @@ define(
 
       // Network proxy.
       .factory('Proxy', ['Config', function(config) {
-//      return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
-        return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
+        if (false) // TODO(burdon): Config.
+          return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
+        else
+          return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
       }])
 
       // App info.

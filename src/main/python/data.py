@@ -53,8 +53,14 @@ class Database(object):
             self.graph.create(target)
 
 
+class Notifier(object):
+
+    def notify(self, message):
+        pass
+
+
 @singleton
-@inject(database=Database)
+@inject(database=Database, notifier=Notifier)
 class RequestHandler(object):
     """
     Handles all inbound data requests (queries and mutations).
@@ -101,5 +107,7 @@ class RequestHandler(object):
             response['mutation_result'] = {
                 'mutation_id': request['mutation']['id'],
             }
+
+            self.notifier.notify()
 
         return response

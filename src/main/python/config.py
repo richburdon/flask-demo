@@ -15,19 +15,17 @@ from injector import Module, inject, singleton
 class Config(object):
 
     def __init__(self):
-        from urlparse import urlparse
-        url = urlparse(flask.request.url_root)
-
         # Defaults.
         self.config = EasyDict({
+
             # Client configuration.
             'client': {
                 'app': {
                     'name': self.app.config['APP_NAME'],
-                    'server': url.scheme + '://' + url.netloc
                 }
             },
-            # Service configurations.
+
+            # Service configuration.
             'service': {
             }
         })
@@ -39,6 +37,13 @@ class Config(object):
         for part in index.split('.'):
             obj = obj[part]
         return obj
+
+    def get_client_config(self):
+        # NOTE: flask.request cannot be called on startup; deferred to call from view.
+        from urlparse import urlparse
+        url = urlparse(flask.request.url_root)
+        self.config.client.app.server = url.scheme + '://' + url.netloc
+        return self.config.client
 
     def init(self):
         pass

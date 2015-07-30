@@ -84,7 +84,7 @@ define(['socketio', 'nx/util/core'], function() {
     self._socket.on(NS.WebSocketsProxy.EVENT_TYPE, function(data, ack) {
       self._fireCallback(data);
       ack && ack();
-    })
+    });
   });
 
   NS.WebSocketsProxy.EVENT_TYPE = 'Message';

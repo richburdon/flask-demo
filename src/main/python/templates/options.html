@@ -2,7 +2,7 @@
 
 {% block head %}
 
-  <title>{{ config.title }}</title>
+  <title xmlns="http://www.w3.org/1999/html">{{ config.title }}</title>
 
 {% endblock %}
 
@@ -12,32 +12,39 @@
   <h1>Options</h1>
 
   <form action="/demo">
-  <table>
-    <tr>
-      <td>Debug</td>
-      <td><input type="checkbox" name="debug"/></td>
-    </tr>
-    <tr>
-      <td>Proxy</td>
-      <td>
-        <div>
-          <input type="radio" name="proxy" value="ajax" checked="checked"/><span>Ajax</span>
-          <input type="radio" name="proxy" value="websockets"/><span>WebSockets</span>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>Database</td>
-      <td>
-        <div>
-          <input type="radio" name="db" value="client" checked="checked"/><span>Client</span>
-          <input type="radio" name="db" value="remote"/><span>Remote</span>
-          <input type="radio" name="db" value="hybrid"/><span>Hybrid</span>
-        </div>
-      </td>
-    </tr>
-  </table>
-  <input type="submit"/>
+    <table>
+      <tr>
+        <td>Logging</td>
+        <td>
+          <select name="log">
+            <option value="INFO" selected>INFO</option>
+            <option value="DEBUG">DEBUG</option>
+            <option value="WARNING">WARNING</option>
+            <option value="ERROR">ERROR</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Proxy</td>
+        <td>
+          <div>
+            <label><input type="radio" name="proxy" value="ajax" checked="checked"/>Ajax</label>
+            <label><input type="radio" name="proxy" value="websockets"/>WebSockets</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Database</td>
+        <td>
+          <div>
+            <label><input type="radio" name="db" value="client" checked="checked"/>Client</label>
+            <label><input type="radio" name="db" value="remote"/>Remote</label>
+            <label><input type="radio" name="db" value="hybrid"/>Hybrid</label>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <input type="submit"/>
   </form>
 
 {% endblock %}

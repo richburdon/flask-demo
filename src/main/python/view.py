@@ -53,7 +53,7 @@ class DemoView(flask.views.MethodView):
     NAME = 'Demo'
 
     def get(self):
-        return flask.render_template('demo.html', config=self.config['client'])
+        return flask.render_template('demo.html', config=self.config.get_client_config())
 
 
 @singleton

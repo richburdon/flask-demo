@@ -2,83 +2,79 @@
 # Copyright 2015 Alien Laboratories, Inc.
 #
 
-import flask
 import logging
+import flask
+import flask.views
+from injector import Module, inject, singleton
 from flask.ext.socketio import SocketIO
-from injector import Injector, Module, inject
 
-from data import RequestHandler
+from data import RequestHandler, Notifier
 
 
-# Main instance.
-# https://flask-socketio.readthedocs.org
-# TODO(burdon): Investigate pubnub/pusher API (to enable scaling at later date).
-# TODO(burdon): Configure nginx for sticky sessions.
-socketio = SocketIO()
-
+# TODO(burdon): Export to JS client.
 NS = '/nx'
-EVENT_NAME = 'Message'
+EVENT = 'Message'
 
 
-# Adapter necessary for global socket bindings.
-# TODO(burdon): https://github.com/miguelgrinberg/Flask-SocketIO/issues/129
-class Adapter(object):
+@singleton
+@inject(socketio=SocketIO, handler=RequestHandler)
+class SocketHandler(object):
 
-    instance = None
+    def __init__(self):
+        logging.info('Initializing WebSockets...')
+        self.socketio.on_error_default(self.on_error)
+        self.socketio.on('connect', namespace=NS)(self.on_connect)
+        self.socketio.on('disconnect', namespace=NS)(self.on_disconnect)
+        self.socketio.on(EVENT, namespace=NS)(self.on_message)
 
-    def __init__(self, injector):
-        self.injector = injector
-
-    def on_error(self, error):
+    @staticmethod
+    def on_error(error):
         logging.error(error)
 
-    def on_connect(self):
+    @staticmethod
+    def on_connect():
         logging.info('Connected')
 
-    def on_disconnect(self):
+    @staticmethod
+    def on_disconnect():
         logging.info('Disconnected')
 
     def on_message(self, request):
-        handler = self.injector.get(RequestHandler)
-        response = handler.process_request(request)
-        socketio.emit(EVENT_NAME, response, namespace=NS, callback=lambda: logging.info('ACK'))
+        logging.info('Received')
+        response = self.handler.process_request(request)
+        logging.info('Responding...')
+        self.socketio.emit(EVENT, response, namespace=NS, callback=lambda: logging.info('ACK'))
 
 
-@socketio.on_error_default
-def default_error_handler(error):
-    Adapter.instance.on_error(error)
+@singleton
+@inject(socketio=SocketIO)
+class SocketNotifier(Notifier):
+
+    def notify(self, message=None):
+        # TODO(burdon): Pass list of invalidated query/versions.
+        logging.info('Notify')
+        self.socketio.emit(EVENT, data={}, broadcast=True)
 
 
-@socketio.on('connect', namespace=NS)
-def test_connect():
-    Adapter.instance.on_connect()
-
-
-@socketio.on('disconnect', namespace=NS)
-def test_disconnect():
-    Adapter.instance.on_disconnect()
-
-
-@socketio.on(EVENT_NAME, namespace=NS)
-def handle_message(message):
-    Adapter.instance.on_message(message)
-
-
-@inject(app=flask.Flask, injector=Injector)
+@inject(app=flask.Flask)
 class SocketModule(Module):
 
-    def __init__(self):
-        # TODO(burdon): Move to action.
-        self.app.add_url_rule('/ping', 'ping', self.ping)
+    def configure(self, binder):
+        binder.bind(SocketIO, SocketIO(self.app))
+        binder.bind(Notifier, SocketNotifier)
 
-        # NOTE: Injector cannot be used during module set-up (otherwise context error).
-        Adapter.instance = Adapter(self.injector)
 
-        socketio.init_app(self.app)
-
-    # Respond asynchronously to connected client.
-    @staticmethod
-    def ping():
-        # Trigger async response.
-        socketio.emit(EVENT_NAME, {'data': 'PONG'}, namespace=NS)
-        return flask.json.jsonify({})
+    #     # TODO(burdon): Move to action.
+    #     self.app.add_url_rule('/ping', 'ping', self.ping)
+    #
+    #
+    # class Pinger(object):
+    #     pass
+    #
+    # # Respond asynchronously to connected client.
+    # @inject(socketio=SocketIO)
+    # @provides()
+    # def ping():
+    #     # Trigger async response.
+    #     socketio.emit(EVENT_NAME, {'data': 'PONG'}, namespace=NS)
+    #     return flask.json.jsonify({})
