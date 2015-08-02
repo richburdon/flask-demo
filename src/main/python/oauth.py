@@ -4,47 +4,51 @@
 
 import flask
 from injector import Key, MappingKey, Module, inject, singleton
-
-# http://flask-oauthlib.readthedocs.org/en/latest/client.html
-# http://flask-oauthlib.readthedocs.org/en/latest/api.html
-# Deprecated: https://pythonhosted.org/Flask-OAuth
 from flask_oauthlib.client import OAuth
 
 
 class OAuthService(object):
     """
-
+    Manages OAuth flow for a given service provider.
     """
 
-    def __init__(self, remote):
+    def __init__(self, prefix, remote):
         self.remote = remote
 
-    # TODO(burdon): Factor out session consts.
+        self.token_key = '%s_token' % prefix
+        self.user_key = '%s_user' % prefix
+
+        @remote.tokengetter
+        def get_token(token=None):
+            return flask.session.get(self.token_key)
 
     def authorized(self, response):
-        flask.session[TwitterModule.TOKEN] = (
+        flask.session[self.token_key] = (
             response['oauth_token'],
             response['oauth_token_secret']
         )
 
-        flask.session[TwitterModule.USER] = {
+        flask.session[self.user_key] = {
             'id': response['user_id'],
             'name': response['screen_name']
         }
 
-        return flask.session.get(TwitterModule.USER)
-
     def logout(self):
         # TODO(burdon): Revoke also: https://twitter.com/settings/applications
-        flask.session.pop(TwitterModule.TOKEN, None)
-        flask.session.pop(TwitterModule.USER, None)
+        flask.session.pop(self.token_key, None)
+        flask.session.pop(self.user_key, None)
+
+    def get_user(self, require=False):
+        user = flask.session.get(self.user_key)
+        if require and not user:
+            return flask.abort(401)
+        return user
 
 
-# TODO(burdon): Inject set.
 @singleton
 class OAuthServiceManager(object):
     """
-
+    Manages a collection of OAuth service instances.
     """
 
     SERVICE = MappingKey('services')
@@ -57,48 +61,11 @@ class OAuthServiceManager(object):
         return self.services[name]
 
 
-@inject(oauth=OAuth)
-class TwitterModule(Module):
-    """
-
-    """
-
-    KEY = Key('twitter')
-
-    SERVICE = 'twitter'
-    ADMIN_URL = 'https://apps.twitter.com/app/8619350'
-
-    TOKEN = 'twitter_token'
-    USER = 'twitter_user'
-
-    def configure(self, binder):
-
-        # https://dev.twitter.com/web/sign-in/implementing
-        remote = self.oauth.remote_app(
-            TwitterModule.SERVICE,
-            app_key='TWITTER',  # Reference conf.
-            base_url='https://api.twitter.com/1/',
-            request_token_url='https://api.twitter.com/oauth/request_token',
-            access_token_url='https://api.twitter.com/oauth/access_token',
-            authorize_url='https://api.twitter.com/oauth/authenticate')
-
-        # TODO(burdon): Remove.
-        binder.bind(TwitterModule.KEY, remote)
-
-        service = OAuthService(remote)
-        binder.bind(OAuthServiceManager.SERVICE, { TwitterModule.SERVICE: service })
-
-        @remote.tokengetter
-        def get_twitter_token(token=None):
-            # TODO(burdon): Store in DB in prod.
-            return flask.session.get(TwitterModule.TOKEN)
-
-
 @singleton
 @inject(app=flask.Flask)
 class OAuthConfigModule(Module):
     """
-
+    Initial OAuth configuration.
     """
 
     def configure(self, binder):
@@ -107,18 +74,22 @@ class OAuthConfigModule(Module):
         binder.bind(OAuth, OAuth(self.app), scope=singleton)
 
 
-HOME_ENDPOINT = Key('OAuthServiceModule.HOME_ENDPOINT')
+# Configure this key to route login flow on success.
+LOGIN_SUCCESS_ENDPOINT = Key('OAuthServiceModule.HOME_ENDPOINT')
 
 
 @singleton
 @inject(
     app=flask.Flask,
-    oauth=OAuth,
-    home_endpoint=HOME_ENDPOINT,
+    home_endpoint=LOGIN_SUCCESS_ENDPOINT,
     service_manager=OAuthServiceManager)
 class OAuthRouterModule(Module):
     """
+    Configures OAuth routes.
 
+    http://flask-oauthlib.readthedocs.org/en/latest/client.html
+    http://flask-oauthlib.readthedocs.org/en/latest/api.html
+    Deprecated: https://pythonhosted.org/Flask-OAuth
     """
 
     def configure(self, binder):
@@ -154,9 +125,8 @@ class OAuthRouterModule(Module):
                 flask.flash('Login failed!')
 
             else:
-                user = oauth_service.authorized(response)
+                oauth_service.authorized(response)
+                user = oauth_service.get_user()
                 flask.flash('You were signed in as %s' % user['name'])
 
             return flask.redirect(next_url)
-
-

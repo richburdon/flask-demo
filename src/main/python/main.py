@@ -15,7 +15,8 @@ from flask_injector import FlaskInjector, Injector
 from flask.ext.session import Session
 
 from config import ConfigModule
-from oauth import OAuthConfigModule, OAuthRouterModule, TwitterModule
+from oauth import OAuthConfigModule, OAuthRouterModule
+from twitter import TwitterModule
 from view import ViewModule
 
 
