@@ -14,10 +14,31 @@
 
   </head>
   <body>
-    {% block body %}
-    {% endblock %}
 
-    <div id="app-debug"></div>
+    <div class="app-container">
+      <div class="app-center">
+
+        <div class="app-header">
+        {# http://flask.pocoo.org/docs/0.10/patterns/flashing #}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <div class="app-flash">
+          {% for message in messages %}
+            <div>{{ message }}</div>
+          {% endfor %}
+          </div>
+          {% endif %}
+        {% endwith %}
+        </div>
+
+        <div class="app-body"></div>
+        {% block body %}
+        {% endblock %}
+        </div>
+
+        <div class="app-footer"></div>
+      </div>
+    </div>
 
   </body>
 </html>

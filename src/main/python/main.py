@@ -12,6 +12,7 @@ import yaml
 
 from flask_environments import Environments
 from flask_injector import FlaskInjector, Injector
+from flask.ext.session import Session
 
 from view import ViewModule
 from config import ConfigModule
@@ -32,6 +33,14 @@ class Main(flask.Flask):
         # https://pythonhosted.org/Flask-Environments
         env = Environments(self)
         env.from_yaml(os.path.join(os.getcwd(), 'config/config.yml'))
+
+        # TODO(burdon): Move session config to file (not in source).
+        self.config['SECRET_KEY'] = 'FLASK_DEMO_KEY'
+
+        # http://pythonhosted.org/Flask-Session
+        # http://flask.pocoo.org/docs/0.10/quickstart/#sessions
+        self.config['SESSION_TYPE'] = 'filesystem'
+        session = Session(self)
 
         # Config logging.
         # https://docs.python.org/2/howto/logging.html

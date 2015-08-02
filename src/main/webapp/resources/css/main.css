@@ -19,6 +19,12 @@ h1, h2, h3 {
  * Layout
  */
 
+.app-header .app-flash {
+  background-color: red;
+  color: white;
+  padding: 4px;
+}
+
 .app-container {
   background-color: #EEE;
   position: absolute;

@@ -17,4 +17,6 @@ requests
 # Flask
 Flask
 Flask-Injector
+Flask-OAuthlib
+Flask-Session
 flask-environments
