@@ -7,13 +7,13 @@
   <h1>Home</h1>
   <div>
     {% if user %}
-    <div>User: {{ user }}</div>
+    <div>User: {{ user.name }}</div>
     <div>
-      <a href="/logout">Logout</a>
+      <a href="/logout/twitter">Logout</a>
     </div>
     {% else %}
     <div>
-      <a href="/login">Login</a>
+      <a href="/login/twitter">Login</a>
     </div>
     {% endif %}
   </div>

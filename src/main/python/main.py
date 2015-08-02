@@ -14,8 +14,9 @@ from flask_environments import Environments
 from flask_injector import FlaskInjector, Injector
 from flask.ext.session import Session
 
-from view import ViewModule
 from config import ConfigModule
+from oauth import OAuthConfigModule, OAuthRouterModule, TwitterModule
+from view import ViewModule
 
 
 class Main(flask.Flask):
@@ -34,14 +35,6 @@ class Main(flask.Flask):
         env = Environments(self)
         env.from_yaml(os.path.join(os.getcwd(), 'config/config.yml'))
 
-        # TODO(burdon): Move session config to file (not in source).
-        self.config['SECRET_KEY'] = 'FLASK_DEMO_KEY'
-
-        # http://pythonhosted.org/Flask-Session
-        # http://flask.pocoo.org/docs/0.10/quickstart/#sessions
-        self.config['SESSION_TYPE'] = 'filesystem'
-        session = Session(self)
-
         # Config logging.
         # https://docs.python.org/2/howto/logging.html
         logging.config.dictConfig(yaml.load(open(self.config['LOG_CONFIG'])))
@@ -55,16 +48,24 @@ class Main(flask.Flask):
             lstrip_blocks=True
         ))
 
+        # http://pythonhosted.org/Flask-Session
+        # http://flask.pocoo.org/docs/0.10/quickstart/#sessions
+        self.session = Session(self)
+
         # Enable injection within this class.
         # https://github.com/alecthomas/injector
         injector = Injector()
         injector.install_into(self)
 
         # Flask injection.
+        # NOTE: Order of modules is important.
         LOG.info('### %s ###' % self.config['ENVIORNMENT'])
         FlaskInjector(app=self, injector=injector, modules=[
             ConfigModule,
-            ViewModule
+            OAuthConfigModule,
+            TwitterModule,
+            ViewModule,
+            OAuthRouterModule
         ])
 
     def start(self):

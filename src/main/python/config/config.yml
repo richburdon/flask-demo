@@ -13,6 +13,18 @@ COMMON: &common
 
   LOG_CONFIG: config/logging.yml
 
+  # Required for all encryption extensions.
+  SECRET_KEY: 'FLASK_DEMO_KEY'
+
+  # http://pythonhosted.org/Flask-Session
+  # http://flask.pocoo.org/docs/0.10/quickstart/#sessions
+  SESSION_TYPE: 'filesystem'
+  SESSION_FILE_DIR: '/tmp/flask_session'
+
+  # OAuth
+  TWITTER_CONSUMER_KEY: FbvfS8UoEv6QMOT6vSozI7XHS
+  TWITTER_CONSUMER_SECRET: GZw0CdtX1rKYt18MHFtid2j7SDQByhe8DQ122nBeLautHa6HBm
+
 #
 # Dev: meaning local workstation (not on Docker)
 #
