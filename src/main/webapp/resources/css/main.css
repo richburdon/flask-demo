@@ -16,24 +16,6 @@ h1, h2, h3 {
 }
 
 /*
- * D3
- */
-
-.app-graph .node {
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
-
-.app-graph .node.type-1 { fill: #1f77b4; }
-.app-graph .node.type-2 { fill: #ff7f0e; }
-.app-graph .node.type-3 { fill: #2ca02c; }
-
-.app-graph .link {
-  stroke: #999;
-  stroke-opacity: .6;
-}
-
-/*
  * Layout
  */
 
@@ -68,51 +50,4 @@ h1, h2, h3 {
   padding: 2px;
   color: white;
   background-color: darkred;
-}
-
-.app-info {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  width: 400px;
-  border: 1px solid darkblue;
-  background-color: white;
-  padding: 10px;
-  z-index: 1;
-}
-
-.app-menu {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  border: 1px solid darkblue;
-  background-color: white;
-  padding: 10px;
-  z-index: 1;
-}
-.app-menu button {
-  font-size: xx-large;
-}
-
-.app-status {
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 20px;
-  height: 50px;
-  overflow-y: scroll;
-  border: 1px solid darkblue;
-  font-size: small;
-  background-color: white;
-  padding: 10px;
-  z-index: 1;
-}
-
-.app-graph {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #EEE;
 }

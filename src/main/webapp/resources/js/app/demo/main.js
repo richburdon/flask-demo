@@ -6,9 +6,6 @@ define(
   [
     'angular',
     'angular-ui-router',
-    'nx/data/database',
-    'nx/net/proxy',
-    'nx/util/config',
     'view/home/view',
     'view/test/view'
   ], function() {
@@ -20,8 +17,8 @@ define(
     return angular.module('demo',
       [
         'ui.router',
-        'demo.view.home',
-        'demo.view.test'
+        'view.home',
+        'view.test'
       ])
 
       // Error handling.
@@ -33,53 +30,6 @@ define(
           throw exception;
         };
       })
-
-      // Config
-      .factory('Config', [function() {
-        return new nx.util.config.Config();
-      }])
-
-      // Database.
-      .factory('Database', ['Proxy', function(proxy) {
-        return new nx.data.database.Database(proxy);
-      }])
-
-      // Network proxy.
-      .factory('Proxy', ['Config', function(config) {
-        switch ($.nx.queryParam('transport')) {
-          case 'ajax':
-            return new nx.net.proxy.AjaxProxy(config.get('app.server') + '/data');
-
-          default:
-          case 'websockets':
-            return new nx.net.proxy.WebSocketsProxy(config.get('app.server') + '/nx');
-        }
-      }])
-
-      // App info.
-      .factory('AppInfo', ['Config', 'Proxy', 'GraphModel', function(config, proxy, model) {
-        var app = config.get('app');
-        app.proxy = proxy;
-        app.model = model; // TODO(burdon): How to trigger update? $digest?
-        return app;
-      }])
-
-      // Graph Model.
-      .factory('GraphModel', ['Database', function(database) {
-        // TODO(burdon): Should configure database not model.
-        var model;
-        switch ($.nx.queryParam('db')) {
-          case 'test':
-            model = new nx.ui.graph.TestGraphModel(database);
-            break;
-
-          default:
-            model = new nx.ui.graph.DatabaseGraphModel(database);
-            break;
-        }
-        model.load();
-        return model;
-      }])
 
       // App state machine.
       .config(['$urlRouterProvider', '$stateProvider',

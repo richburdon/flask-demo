@@ -6,7 +6,7 @@ define([
     'angular'
   ], function(angular) {
 
-	return angular.module('demo.view.test', [])
+	return angular.module('view.test', [])
 
     .controller('TestViewController', ['$scope', function($scope) {}]);
 

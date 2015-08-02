@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 
 {% block head %}
-    <title>{{ config.app.name }}</title>
     <script type="application/javascript">
-      window['__APP_CONFIG__'] = {{ config|tojson|safe }};
+      window['__APP_CONFIG__'] = {{ config.client|tojson|safe }};
     </script>
     <script type="text/javascript" src="/res/lib/requirejs/require.js" data-main="/res/js/app/demo/config"></script>
 {% endblock %}
@@ -15,8 +14,12 @@
     http://flask-triangle.readthedocs.org/en/develop/tutorial/part1.html
   #}
   {% raw %}
-    <div id="app" ng-strict-di>
-      <section ui-view></section>
+    <div class="app-container">
+      <div class="app-center">
+        <div id="app" ng-strict-di>
+          <section ui-view></section>
+        </div>
+      </div>
     </div>
   {% endraw %}
 {% endblock %}

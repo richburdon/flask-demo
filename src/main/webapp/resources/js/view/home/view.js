@@ -3,20 +3,11 @@
 'use strict';
 
 define([
-    'angular',
-    'view/home/menu',
-    'nx/ui/table',
-    'nx/ui/status',
-    'nx/ui/graph'
+    'angular'
   ], function(angular) {
 
-	return angular.module('demo.view.home', [
-      'demo.view.home.menu',
-      'nx.ui.table',
-      'nx.ui.status',
-      'nx.ui.graph'
-    ])
+	return angular.module('view.home', [])
 
-    .controller('MainViewController', ['$scope', 'AppInfo', function($scope, info) {}]);
+    .controller('MainViewController', ['$scope', function($scope) {}]);
 
 });
